@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "866085533365",
+    "firebase_url": "https://sihaluh.firebaseio.com",
+    "project_id": "sihaluh",
+    "storage_bucket": "sihaluh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866085533365:android:e388c37dee02bd2713f0fc",
+        "android_client_info": {
+          "package_name": "com.example.sihaluh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866085533365-ppkuh8jed9oj53ankrcnhs88tiji3q9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE1Oh-xnaTvPTTQJnsSV782vAy6Sgaxoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866085533365-ppkuh8jed9oj53ankrcnhs88tiji3q9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
