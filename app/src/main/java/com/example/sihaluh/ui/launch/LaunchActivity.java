@@ -32,7 +32,11 @@ public class LaunchActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
 
+
+
     }
+
+
 
     @Override
     protected void onStart() {

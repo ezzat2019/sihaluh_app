@@ -1,5 +1,6 @@
 package com.example.sihaluh.ui.launch.fragment.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,18 +15,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.RegisterModel;
+import com.example.sihaluh.ui.home.HomeActivity;
+import com.example.sihaluh.ui.launch.fragment.login.forget_password.ForgetPasswordBottomSheetFragment;
 import com.example.sihaluh.utils.AllFinal;
-import com.example.sihaluh.utils.shared_preferense.MySharedPreference;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,19 +43,27 @@ public class LoginFragment extends Fragment {
     private EditText ed_login_phone, ed_login_pass;
     private Button btn_login;
     private TextView txt_forget_pass;
+    private BottomSheetDialogFragment bottomSheetDialog;
 
     // var
-    private FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference ref_login = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
     private String phone, password;
     private PrefViewModel prefViewModel;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
+
+
+
 
     }
+
+
 
     @Override
     public View onCreateView(
@@ -71,6 +80,17 @@ public class LoginFragment extends Fragment {
         init(view);
 
         actions();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (prefViewModel.getPhone().equals("")||mAuth.getCurrentUser()==null)
+        {
+            return;
+        }
+        startActivity(new Intent(getContext(), HomeActivity.class));
+        getActivity().finish();
     }
 
     private Boolean checkEditedTextLogin() {
@@ -93,6 +113,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void actions() {
+
+
+
+
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,9 +128,15 @@ public class LoginFragment extends Fragment {
             }
         });
 
+
+
         txt_forget_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                bottomSheetDialog.show(getParentFragmentManager(),"sh1");
+
 
 
             }
@@ -124,16 +155,16 @@ public class LoginFragment extends Fragment {
                     Log.d("zzzzzz", "onDataChange: " + registerModel.getEmail());
                     mAuth.signInWithEmailAndPassword(registerModel.getEmail(), password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                prefViewModel.putPhone(phone);
-                                Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
-                                ed_login_pass.setText("");
-                                ed_login_phone.setText("");
-                            }
-                        }
-                    })
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        prefViewModel.putPhone(phone);
+                                        Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
+                                        ed_login_pass.setText("");
+                                        ed_login_phone.setText("");
+                                    }
+                                }
+                            })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -162,7 +193,9 @@ public class LoginFragment extends Fragment {
 
         txt_forget_pass = v.findViewById(R.id.txt_forget_pass);
 
-        prefViewModel= new ViewModelProvider(this).get(PrefViewModel.class);
+
+
+        bottomSheetDialog=new ForgetPasswordBottomSheetFragment();
 
 
     }
