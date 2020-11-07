@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,110 +7,146 @@
     android:background="@color/white"
     tools:context=".ui.home.fagement.home.HomeFragment">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <SearchView
-        android:id="@+id/search_home"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_11sdp"
-
-        android:background="@color/light_gray2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_filter"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:src="@drawable/ic_baseline_filter_list_24"
-        app:layout_constraintBottom_toBottomOf="@+id/search_home"
-        app:layout_constraintStart_toEndOf="@+id/search_home"
-        app:layout_constraintTop_toTopOf="@+id/search_home" />
-
-    <ImageView
-        android:id="@+id/img_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:src="@drawable/ic_baseline_not_listed_location_24"
-        app:layout_constraintBottom_toBottomOf="@+id/search_home"
-        app:layout_constraintStart_toEndOf="@+id/img_filter"
-        app:layout_constraintTop_toTopOf="@+id/search_home" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_160sdp"
-        android:layout_margin="@dimen/_16sdp"
-        android:outlineAmbientShadowColor="@color/move"
-        app:cardCornerRadius="@dimen/_4sdp"
-        app:cardElevation="@dimen/_7sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_home">
+        android:layout_height="1000dp">
 
+        <SearchView
+            android:id="@+id/search_home"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_11sdp"
+
+            android:background="@color/light_gray2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/img_filter"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:src="@drawable/ic_baseline_filter_list_24"
+            app:layout_constraintBottom_toBottomOf="@+id/search_home"
+            app:layout_constraintStart_toEndOf="@+id/search_home"
+            app:layout_constraintTop_toTopOf="@+id/search_home" />
+
+        <ImageView
+            android:id="@+id/img_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:src="@drawable/ic_baseline_not_listed_location_24"
+            app:layout_constraintBottom_toBottomOf="@+id/search_home"
+            app:layout_constraintStart_toEndOf="@+id/img_filter"
+            app:layout_constraintTop_toTopOf="@+id/search_home" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/welcome_home" />
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/txt_20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:text="Categories"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_14sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:text="More"
-        android:textColor="@color/move"
-        android:textSize="@dimen/_14sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:background="@color/move"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_category"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_4sdp"
-        android:layout_marginRight="@dimen/_4sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="@dimen/_160sdp"
+            android:layout_margin="@dimen/_16sdp"
+            android:outlineAmbientShadowColor="@color/move"
+            app:cardCornerRadius="@dimen/_4sdp"
+            app:cardElevation="@dimen/_7sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_home">
 
 
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:src="@drawable/welcome_home" />
+        </androidx.cardview.widget.CardView>
 
-</ScrollView>
+        <TextView
+            android:id="@+id/txt_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="Categories"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <TextView
+            android:id="@+id/txt_home_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:text="More"
+            android:foreground="?attr/selectableItemBackground"
+            android:textColor="@color/move"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@color/move"
+            app:layout_constraintEnd_toEndOf="@+id/txt_home_more"
+            app:layout_constraintStart_toStartOf="@+id/txt_home_more"
+            app:layout_constraintTop_toBottomOf="@+id/txt_home_more" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:text="Products"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rec_category" />
+
+        <TextView
+            android:id="@+id/txt_home_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:text="Result ( 0 ) "
+            android:textColor="@color/move"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rec_category" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_products"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

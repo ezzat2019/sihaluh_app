@@ -5,6 +5,7 @@ public  final class AllFinal {
     public static final String PREFERENSE_NAME="pref2020";
     public static final String PREFERENSE_PHONE="phone";
     public static final String CATEGORIES="categories";
+    public static final String INTENT_ALLCATEGORY="abc";
 
 
 

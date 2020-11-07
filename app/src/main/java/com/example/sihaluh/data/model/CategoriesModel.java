@@ -1,10 +1,43 @@
 package com.example.sihaluh.data.model;
 
-public class CategoriesModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class CategoriesModel implements Parcelable {
     private String name,img,id;
 
     public CategoriesModel() {
     }
+
+    protected CategoriesModel(Parcel in) {
+        name = in.readString();
+        img = in.readString();
+        id = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(img);
+        dest.writeString(id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<CategoriesModel> CREATOR = new Creator<CategoriesModel>() {
+        @Override
+        public CategoriesModel createFromParcel(Parcel in) {
+            return new CategoriesModel(in);
+        }
+
+        @Override
+        public CategoriesModel[] newArray(int size) {
+            return new CategoriesModel[size];
+        }
+    };
 
     public String getName() {
         return name;

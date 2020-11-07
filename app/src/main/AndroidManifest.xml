@@ -14,10 +14,13 @@
         android:roundIcon="@drawable/icon_main"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sihaluh">
+        <activity android:name=".ui.category.CategoryActivity"
+            android:theme="@style/Theme.Sihaluh_verison3"
+            ></activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:theme="@style/Theme.Sihaluh_verison3"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.Sihaluh_verison3" />
 
         <receiver
             android:name=".utils.receiver.MyReceiver"

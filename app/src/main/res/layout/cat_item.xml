@@ -2,24 +2,24 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="@dimen/_4sdp"
+    app:cardElevation="@dimen/_7sdp"
     android:outlineAmbientShadowColor="@color/move"
     android:layout_marginStart="@dimen/_16sdp"
     android:layout_marginEnd="@dimen/_8sdp"
 
     android:layout_marginTop="@dimen/_8sdp"
     android:layout_marginBottom="@dimen/_8sdp"
-    app:cardCornerRadius="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/v1_cat"
         android:foreground="?attr/selectableItemBackground"
-        android:layout_width="@dimen/_140sdp"
+        android:layout_width="@dimen/_180sdp"
         android:background="@color/light_gray2"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:layout_height="wrap_content"
+
+        android:layout_height="match_parent"
         android:padding="@dimen/_4sdp"
        >
         <de.hdodenhof.circleimageview.CircleImageView
@@ -37,7 +37,7 @@
             android:id="@+id/txt_cat_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:singleLine="true"
             android:text="named"

@@ -18,7 +18,17 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVH> {
     private List<CategoriesModel> categoriesModelList=new ArrayList<>();
+    public OnItemCatListener onItemCatListener;
+    public interface OnItemCatListener{
+        void onClick(int pos);
+    }
 
+
+    public void setOnItemCatListener(OnItemCatListener onItemCatListener)
+    {
+        this.onItemCatListener=onItemCatListener;
+
+    }
     @NonNull
     @Override
     public CatVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,6 +63,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVH>
             super(itemView);
             this.vv=itemView;
             init(itemView);
+
+            actions();
+        }
+
+        private void actions() {
+            vv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemCatListener.onClick(getAdapterPosition());
+                }
+            });
         }
 
         public void fiiView(CategoriesModel categoriesModel)
