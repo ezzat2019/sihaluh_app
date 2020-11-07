@@ -159,9 +159,13 @@ public class LoginFragment extends Fragment {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         prefViewModel.putPhone(phone);
-                                        Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
+
                                         ed_login_pass.setText("");
                                         ed_login_phone.setText("");
+
+                                        startActivity(new Intent(getContext(), HomeActivity.class));
+                                        getActivity().finish();
+
                                     }
                                 }
                             })

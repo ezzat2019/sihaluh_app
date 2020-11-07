@@ -6,6 +6,9 @@ public  final class AllFinal {
     public static final String PREFERENSE_PHONE="phone";
     public static final String CATEGORIES="categories";
     public static final String INTENT_ALLCATEGORY="abc";
+    public static final String INTENT_CATEGORYNAME="abcd";
+    public static final String INTENT_CATEGORYTOOLBAR="abcda";
+
 
 
 

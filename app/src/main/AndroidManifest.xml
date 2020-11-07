@@ -14,9 +14,12 @@
         android:roundIcon="@drawable/icon_main"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sihaluh">
-        <activity android:name=".ui.category.CategoryActivity"
+        <activity android:name=".ui.category_items.CategoryItemsActivity"
             android:theme="@style/Theme.Sihaluh_verison3"
             ></activity>
+        <activity
+            android:name=".ui.all_category.CategoryActivity"
+            android:theme="@style/Theme.Sihaluh_verison3" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"

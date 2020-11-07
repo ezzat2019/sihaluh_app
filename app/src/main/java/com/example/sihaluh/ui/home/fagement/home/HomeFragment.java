@@ -19,7 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CategoriesModel;
 import com.example.sihaluh.data.model.ProductModel;
-import com.example.sihaluh.ui.category.CategoryActivity;
+import com.example.sihaluh.ui.all_category.CategoryActivity;
+import com.example.sihaluh.ui.category_items.CategoryItemsActivity;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.home.adapters.CategoryAdapter;
 import com.example.sihaluh.ui.home.fagement.home.adapters.ProductRecycleAdapter;
@@ -143,7 +144,11 @@ public class HomeFragment extends Fragment {
         categoryAdapter.setOnItemCatListener(new CategoryAdapter.OnItemCatListener() {
             @Override
             public void onClick(int pos) {
-                Toast.makeText(getContext(), pos + "", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getContext(), CategoryItemsActivity.class);
+                intent.putExtra(AllFinal.INTENT_CATEGORYNAME,categoriesModelList.get(pos).getId());
+                intent.putExtra(AllFinal.INTENT_CATEGORYTOOLBAR,categoriesModelList.get(pos).getName());
+
+                startActivity(intent);
             }
         });
 

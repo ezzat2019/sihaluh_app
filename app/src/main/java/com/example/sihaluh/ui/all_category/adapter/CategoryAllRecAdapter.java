@@ -1,4 +1,4 @@
-package com.example.sihaluh.ui.category.adapter;
+package com.example.sihaluh.ui.all_category.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

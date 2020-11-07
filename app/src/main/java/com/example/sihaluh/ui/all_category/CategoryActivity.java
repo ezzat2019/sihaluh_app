@@ -1,5 +1,6 @@
-package com.example.sihaluh.ui.category;
+package com.example.sihaluh.ui.all_category;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -13,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CategoriesModel;
-import com.example.sihaluh.ui.category.adapter.CategoryAllRecAdapter;
+import com.example.sihaluh.ui.all_category.adapter.CategoryAllRecAdapter;
+import com.example.sihaluh.ui.category_items.CategoryItemsActivity;
 import com.example.sihaluh.utils.AllFinal;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setContentView(R.layout.activity_category);
 
 
@@ -59,7 +62,11 @@ public class CategoryActivity extends AppCompatActivity {
         categoryAllRecAdapter.setOnItemCatClick(new CategoryAllRecAdapter.OnItemCatAllListener() {
             @Override
             public void onClick(int pos) {
-                Toast.makeText(CategoryActivity.this, pos + "", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                intent.putExtra(AllFinal.INTENT_CATEGORYNAME,categoriesModelList.get(pos).getId());
+                intent.putExtra(AllFinal.INTENT_CATEGORYTOOLBAR,categoriesModelList.get(pos).getName());
+
+                startActivity(intent);
             }
         });
 
