@@ -1,8 +1,26 @@
 package com.example.sihaluh.data.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "products")
 public class ProductModel {
-    private String img,name,owner;
-    private String id,sale,price;
+    @ColumnInfo(name = "img")
+     String img;
+    @ColumnInfo(name = "name")
+     String name;
+    @ColumnInfo(name = "owner")
+     String owner;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "id")
+     String id;
+    @ColumnInfo(name = "sale")
+     String sale;
+    @ColumnInfo(name = "price")
+     String price;
 
     public String getId() {
         return id;

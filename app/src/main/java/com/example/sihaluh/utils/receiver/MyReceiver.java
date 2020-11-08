@@ -40,7 +40,9 @@ public class MyReceiver extends BroadcastReceiver {
 
     private void showInternetDialog(Context context,boolean show) {
         createInternetDialog(context);
+
         if (show) {
+
             alertDialog.show();
         } else {
             alertDialog.dismiss();

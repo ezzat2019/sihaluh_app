@@ -51,4 +51,6 @@ public class LaunchActivity extends AppCompatActivity {
         super.onStop();
         MyReceiver.stopReceiver(LaunchActivity.this,myReceiver);
     }
+
+
 }

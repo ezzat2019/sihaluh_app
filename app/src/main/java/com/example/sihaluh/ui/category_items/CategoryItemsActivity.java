@@ -1,5 +1,6 @@
 package com.example.sihaluh.ui.category_items;
 
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,11 +10,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sihaluh.R;
+import com.example.sihaluh.data.model.CategoryItemModel;
 import com.example.sihaluh.data.model.ProductModel;
+import com.example.sihaluh.ui.category_items.viewmodel.CategoryItemViewmodel;
 import com.example.sihaluh.ui.home.fagement.home.adapters.ProductRecycleAdapter;
 import com.example.sihaluh.utils.AllFinal;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +30,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CategoryItemsActivity extends AppCompatActivity {
 
     // ui
@@ -38,7 +46,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private ProductRecycleAdapter productRecycleAdapter;
     private String catgory_id;
     private List<ProductModel> productModelList = new ArrayList<>();
-
+    private CategoryItemViewmodel categoryItemViewmodel;
     private DatabaseReference products_ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.CATEGORIES);
 
 
@@ -79,8 +87,10 @@ public class CategoryItemsActivity extends AppCompatActivity {
                     productModel.setSale(snapshot1.child("sale").getValue().toString());
                     productModelList.add(productModel);
                 }
-                productRecycleAdapter.addProducts(productModelList);
-                showProgress(false);
+                CategoryItemModel model=new CategoryItemModel(catgory_id,productModelList);
+                categoryItemViewmodel.addCategory(model);
+                categoryItemViewmodel.setProductModelListLiveData(productModelList);
+
             }
 
             @Override
@@ -123,6 +133,41 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
         progress_category_item = findViewById(R.id.progress_category_item);
         showProgress(true);
+
+        observeViewModel();
+    }
+
+    private void observeViewModel() {
+        categoryItemViewmodel=new ViewModelProvider(this).get(CategoryItemViewmodel.class);
+
+        ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connectivityManager.getActiveNetworkInfo()!=null)
+        {
+            categoryItemViewmodel.getProductModelListLiveData()
+                    .observe(this, new Observer<List<ProductModel>>() {
+                        @Override
+                        public void onChanged(List<ProductModel> productModels) {
+                            productRecycleAdapter.addProducts(productModels);
+                            showProgress(false);
+                        }
+                    });
+
+        }
+        else
+        {
+            categoryItemViewmodel.getCategoryModel(catgory_id).observe(this
+                    , new Observer<CategoryItemModel>() {
+                        @Override
+                        public void onChanged(CategoryItemModel categoryItemModel) {
+
+                            productRecycleAdapter.addProducts(categoryItemModel.getProductModelList());
+                            showProgress(false);
+                        }
+                    });
+        }
+
+
+
     }
 
     private void showProgress(Boolean show) {
