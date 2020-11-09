@@ -3,7 +3,6 @@ package com.example.sihaluh.ui.home.fagement.home;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +28,7 @@ import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.home.adapters.CategoryAdapter;
 import com.example.sihaluh.ui.home.fagement.home.adapters.ProductRecycleAdapter;
 import com.example.sihaluh.ui.home.fagement.home.viewmodel.HomeViewModel;
+import com.example.sihaluh.ui.product_detial.ProductDetailActivity;
 import com.example.sihaluh.utils.AllFinal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,44 +75,39 @@ public class HomeFragment extends Fragment {
                 "https://thumbs.dreamstime.com/z/collection-modern-touchscreen-smartphones-creative-abstract-mobile-phone-wireless-communication-technology-mobility-51212846.jpg", "the_mobile_market"));
 
 
-
-
     }
 
-    private Boolean checkInternetConncertion()
-    {
-        ConnectivityManager networkRequest= (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (networkRequest.getActiveNetworkInfo()!=null)
-        {
+    private Boolean checkInternetConncertion() {
+        ConnectivityManager networkRequest = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (networkRequest.getActiveNetworkInfo() != null) {
             return true;
         }
         return false;
     }
-    private void obsereViewModel() {
-        if (checkInternetConncertion())
-        {
 
-            homeViewModel.getMutableLiveData().observe(this, new Observer<List<ProductModel>>() {
+    private void obsereViewModel() {
+        if (checkInternetConncertion()) {
+
+            homeViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
                 @Override
                 public void onChanged(List<ProductModel> productModels) {
                     productRecycleAdapter.addProducts(productModels);
                 }
             });
-        }
-        else
-        {
-            homeViewModel.getProductOffline().observe(this
+        } else {
+            homeViewModel.getProductOffline().observe(getViewLifecycleOwner()
                     , new Observer<List<ProductModel>>() {
                         @Override
-                        public void onChanged(List<ProductModel> productModelList) {
-                            productRecycleAdapter.addProducts(productModelList);
-                            homeViewModel.setResult_num(productModelList.size());
+                        public void onChanged(List<ProductModel> productModelList2) {
+                            productRecycleAdapter.addProducts(productModelList2);
+                            homeViewModel.setResult_num(productModelList2.size());
+                            productModelList=productModelList2;
                         }
                     });
         }
 
 
-        homeViewModel.getResult_num().observe(this, new Observer<String>() {
+        homeViewModel.getResult_num().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 txt_home_result.setText("Result ( " + s + " ) ");
@@ -141,7 +136,7 @@ public class HomeFragment extends Fragment {
                         productModel.setOwner(snapshot1.child("owner").getValue().toString());
                         productModel.setSale(snapshot1.child("sale").getValue().toString());
 
-                       homeViewModel.setNewroduct(productModel);
+                        homeViewModel.setNewroduct(productModel);
                         productModelList.add(productModel);
 
 
@@ -202,7 +197,8 @@ public class HomeFragment extends Fragment {
         productRecycleAdapter.setOnItemProductclick(new ProductRecycleAdapter.onProductClickListener() {
             @Override
             public void onClick(int posOfProduct) {
-                Toast.makeText(getContext(), posOfProduct + "", Toast.LENGTH_SHORT).show();
+                gotoProdutDeatial(posOfProduct);
+
             }
         });
 
@@ -214,6 +210,12 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void gotoProdutDeatial(int posOfProduct) {
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra(AllFinal.INTENT_PRODUCT_DETIAL, productModelList.get(posOfProduct));
+        startActivity(intent);
     }
 
 

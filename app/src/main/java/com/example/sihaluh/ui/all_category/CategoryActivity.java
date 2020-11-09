@@ -16,6 +16,7 @@ import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CategoriesModel;
 import com.example.sihaluh.ui.all_category.adapter.CategoryAllRecAdapter;
 import com.example.sihaluh.ui.category_items.CategoryItemsActivity;
+import com.example.sihaluh.ui.product_detial.ProductDetailActivity;
 import com.example.sihaluh.utils.AllFinal;
 
 import java.util.ArrayList;
@@ -99,4 +100,6 @@ public class CategoryActivity extends AppCompatActivity {
 
         img_cat_back = findViewById(R.id.img_cat_back);
     }
+
+
 }

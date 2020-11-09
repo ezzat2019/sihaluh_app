@@ -1,12 +1,15 @@
 package com.example.sihaluh.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "products")
-public class ProductModel {
+public class ProductModel implements Parcelable {
     @ColumnInfo(name = "img")
      String img;
     @ColumnInfo(name = "name")
@@ -21,6 +24,42 @@ public class ProductModel {
      String sale;
     @ColumnInfo(name = "price")
      String price;
+
+    protected ProductModel(Parcel in) {
+        img = in.readString();
+        name = in.readString();
+        owner = in.readString();
+        id = in.readString();
+        sale = in.readString();
+        price = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(img);
+        dest.writeString(name);
+        dest.writeString(owner);
+        dest.writeString(id);
+        dest.writeString(sale);
+        dest.writeString(price);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
+        @Override
+        public ProductModel createFromParcel(Parcel in) {
+            return new ProductModel(in);
+        }
+
+        @Override
+        public ProductModel[] newArray(int size) {
+            return new ProductModel[size];
+        }
+    };
 
     public String getId() {
         return id;

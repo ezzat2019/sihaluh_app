@@ -2,6 +2,9 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/connect_ezzat"
+        android:title="Connect To Developer Ezzat" />
+    <item
         android:id="@+id/signup"
-        android:title="Sign up" />
+        android:title="Logout" />
 </menu>

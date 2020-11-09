@@ -1,5 +1,6 @@
 package com.example.sihaluh.ui.category_items;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.sihaluh.data.model.CategoryItemModel;
 import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.ui.category_items.viewmodel.CategoryItemViewmodel;
 import com.example.sihaluh.ui.home.fagement.home.adapters.ProductRecycleAdapter;
+import com.example.sihaluh.ui.product_detial.ProductDetailActivity;
 import com.example.sihaluh.utils.AllFinal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -105,7 +107,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         productRecycleAdapter.setOnItemProductclick(new ProductRecycleAdapter.onProductClickListener() {
             @Override
             public void onClick(int posOfProduct) {
-                Toast.makeText(CategoryItemsActivity.this, posOfProduct + "", Toast.LENGTH_SHORT).show();
+               gotoProdutDeatial(posOfProduct);
             }
         });
 
@@ -162,6 +164,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
                             productRecycleAdapter.addProducts(categoryItemModel.getProductModelList());
                             showProgress(false);
+                            productModelList=categoryItemModel.getProductModelList();
                         }
                     });
         }
@@ -169,7 +172,11 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
 
     }
-
+    private void gotoProdutDeatial(int posOfProduct) {
+        Intent intent = new Intent(getApplicationContext(), ProductDetailActivity.class);
+        intent.putExtra(AllFinal.INTENT_PRODUCT_DETIAL, productModelList.get(posOfProduct));
+        startActivity(intent);
+    }
     private void showProgress(Boolean show) {
         if (show) {
             rec_product.setVisibility(View.INVISIBLE);

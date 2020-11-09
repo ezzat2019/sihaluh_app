@@ -1,6 +1,7 @@
 package com.example.sihaluh.ui.home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -79,6 +80,13 @@ public class HomeActivity extends AppCompatActivity {
             prefViewModel.putPhone("");
             startActivity(new Intent(getApplicationContext(), LaunchActivity.class));
             finish();
+            return true;
+
+        } else if (item.getItemId() == R.id.connect_ezzat) {
+            Uri uri = Uri.parse("smsto:" + "01144614303");
+            Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+            i.setPackage("com.whatsapp");
+            startActivity(Intent.createChooser(i, "connet to ezzat"));
             return true;
 
         } else {
