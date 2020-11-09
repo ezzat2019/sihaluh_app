@@ -89,7 +89,7 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
                     txt_sale.setText(num + " %");
                 }
                 Glide.with(v.getContext())
-                        .load(productModel.getImg()).into(img_product);
+                        .load(productModel.getImg()).placeholder(R.drawable.ic_launcher_foreground).into(img_product);
 
         }
 

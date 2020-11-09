@@ -33,8 +33,8 @@ public class Provider {
     }
 
     @Provides
-    @Singleton
-    public MainDataBase getDB(Application application) {
+
+    public   MainDataBase getDB(Application application) {
         return Room.databaseBuilder(application, MainDataBase.class, "products3")
                 .fallbackToDestructiveMigration()
                 .build();

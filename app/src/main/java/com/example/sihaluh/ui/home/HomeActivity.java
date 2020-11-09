@@ -54,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
 
 

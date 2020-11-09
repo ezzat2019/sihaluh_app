@@ -43,7 +43,9 @@ public class MyReceiver extends BroadcastReceiver {
 
         if (show) {
 
-            alertDialog.show();
+                alertDialog.show();
+
+
         } else {
             alertDialog.dismiss();
         }

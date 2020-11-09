@@ -95,7 +95,8 @@ public class HomeFragment extends Fragment {
                 }
             });
         } else {
-            homeViewModel.getProductOffline().observe(getViewLifecycleOwner()
+            if (homeViewModel.getProductOffline()!=null)
+            { homeViewModel.getProductOffline().observe(getViewLifecycleOwner()
                     , new Observer<List<ProductModel>>() {
                         @Override
                         public void onChanged(List<ProductModel> productModelList2) {
@@ -104,6 +105,9 @@ public class HomeFragment extends Fragment {
                             productModelList=productModelList2;
                         }
                     });
+
+            }
+
         }
 
 
@@ -159,13 +163,17 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        getProducts();
+
 
         obsereViewModel();
         return root;
@@ -181,6 +189,7 @@ public class HomeFragment extends Fragment {
 
 
     }
+
 
     private void actions() {
         categoryAdapter.setOnItemCatListener(new CategoryAdapter.OnItemCatListener() {
@@ -244,7 +253,10 @@ public class HomeFragment extends Fragment {
         txt_home_result = view.findViewById(R.id.txt_home_result);
 
         txt_home_more = view.findViewById(R.id.txt_home_more);
-
+        if (checkInternetConncertion())
+        {
+            getProducts();
+        }
 
     }
 
@@ -253,6 +265,8 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         HomeActivity.txt_name_bar.setText(getString(R.string.title_home));
+
+
 
     }
 

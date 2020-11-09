@@ -1,6 +1,8 @@
 package com.example.sihaluh.ui.launch.fragment.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,8 +22,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.RegisterModel;
 import com.example.sihaluh.ui.home.HomeActivity;
+import com.example.sihaluh.ui.launch.LaunchActivity;
 import com.example.sihaluh.ui.launch.fragment.login.forget_password.ForgetPasswordBottomSheetFragment;
 import com.example.sihaluh.utils.AllFinal;
+import com.example.sihaluh.utils.receiver.MyReceiver;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +57,7 @@ public class LoginFragment extends Fragment {
     private PrefViewModel prefViewModel;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,16 +87,7 @@ public class LoginFragment extends Fragment {
         actions();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (prefViewModel.getPhone().equals("")||mAuth.getCurrentUser()==null)
-        {
-            return;
-        }
-        startActivity(new Intent(getContext(), HomeActivity.class));
-        getActivity().finish();
-    }
+
 
     private Boolean checkEditedTextLogin() {
         if (TextUtils.isEmpty(ed_login_phone.getText().toString())) {
@@ -146,8 +142,15 @@ public class LoginFragment extends Fragment {
     private void login() {
         phone = ed_login_phone.getText().toString().trim();
         password = ed_login_pass.getText().toString();
+        ConnectivityManager connectivityManager= (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        ref_login.child(phone).addListenerForSingleValueEvent(new ValueEventListener() {
+       if (connectivityManager.getActiveNetworkInfo()==null)
+       {
+           Toast.makeText(getContext(), "check internet connection!", Toast.LENGTH_SHORT).show();
+           return;
+       }
+
+           ref_login.child(phone).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -165,6 +168,7 @@ public class LoginFragment extends Fragment {
 
                                         startActivity(new Intent(getContext(), HomeActivity.class));
                                         getActivity().finish();
+
 
                                     }
                                 }

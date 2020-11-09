@@ -59,20 +59,21 @@ public class CategoryItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_items);
 
         if (!getIntent().hasExtra(AllFinal.INTENT_CATEGORYNAME)) {
-            Toast.makeText(this, "no items found try again later!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "no items found try again later!", Toast.LENGTH_SHORT).show();
             onBackPressed();
 
         } else {
             catgory_id = getIntent().getStringExtra(AllFinal.INTENT_CATEGORYNAME);
+            init();
+
+            actions();
+
+            retriveDataFillRec();
 
         }
 
 
-        init();
 
-        actions();
-
-        retriveDataFillRec();
     }
 
     private void retriveDataFillRec() {
