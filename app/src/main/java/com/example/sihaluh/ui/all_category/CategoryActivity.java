@@ -1,6 +1,7 @@
 package com.example.sihaluh.ui.all_category;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -16,7 +17,6 @@ import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CategoriesModel;
 import com.example.sihaluh.ui.all_category.adapter.CategoryAllRecAdapter;
 import com.example.sihaluh.ui.category_items.CategoryItemsActivity;
-import com.example.sihaluh.ui.product_detial.ProductDetailActivity;
 import com.example.sihaluh.utils.AllFinal;
 
 import java.util.ArrayList;
@@ -92,8 +92,20 @@ public class CategoryActivity extends AppCompatActivity {
         rec_cat.setHasFixedSize(true);
         rec_cat.setAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
         rec_cat.setNestedScrollingEnabled(false);
-        rec_cat.setLayoutManager(new GridLayoutManager(this
-                , 3));
+        int pos=getResources().getConfiguration().orientation;
+
+        GridLayoutManager gridLayoutManager;
+        if (pos== Configuration.ORIENTATION_LANDSCAPE)
+        {
+            gridLayoutManager=new GridLayoutManager(this
+                    , 4);
+        }
+        else
+        {
+            gridLayoutManager=new GridLayoutManager(this
+                    , 3);
+        }
+        rec_cat.setLayoutManager(gridLayoutManager);
 
         categoryAllRecAdapter = new CategoryAllRecAdapter();
         rec_cat.setAdapter(categoryAllRecAdapter);

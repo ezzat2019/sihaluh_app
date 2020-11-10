@@ -54,6 +54,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_shopping_cart_white" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_non_empty_home"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="16dp"
+
+                android:layout_marginBottom="@dimen/_18sdp"
+                android:foreground="@android:color/holo_orange_light"
+
+                app:cardCornerRadius="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_home_cart"
+                app:layout_constraintStart_toStartOf="@+id/img_home_cart"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

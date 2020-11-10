@@ -60,26 +60,18 @@
             android:background="@color/white"
             android:layout_height="match_parent">
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="0dp"
-                android:layout_height="1000dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/txt_result_cat_acycity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="@dimen/_22sdp"
                 android:text="Result ( 0 ) "
-                android:layout_marginTop="@dimen/_24sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:textSize="@dimen/_14sdp"
                 android:textColor="@color/move"
-                app:layout_constraintTop_toTopOf="@+id/view2" />
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_category_activity"

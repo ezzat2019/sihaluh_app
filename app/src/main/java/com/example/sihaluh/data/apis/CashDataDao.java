@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.sihaluh.data.model.CartItemModel;
 import com.example.sihaluh.data.model.CategoryItemModel;
 import com.example.sihaluh.data.model.ProductModel;
 
@@ -28,5 +29,14 @@ public interface CashDataDao {
 
     @Query("select * from categoryitems where category_id=:id")
     LiveData<CategoryItemModel> getCategoryItem(String id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addProducttoCart(CartItemModel cartItemModel);
+
+    @Query("select * from cartitems where user_id=:id")
+    LiveData<CartItemModel> getCartItem(String id);
+
+
+
 
 }

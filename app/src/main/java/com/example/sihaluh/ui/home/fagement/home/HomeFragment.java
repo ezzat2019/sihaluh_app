@@ -2,6 +2,7 @@ package com.example.sihaluh.ui.home.fagement.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -243,7 +244,17 @@ public class HomeFragment extends Fragment {
         rec_product = view.findViewById(R.id.rec_products);
         rec_product.setNestedScrollingEnabled(false);
         // rec_product.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager2;
+        int orination=getResources().getConfiguration().orientation;
+        if (orination==Configuration.ORIENTATION_LANDSCAPE)
+        {
+            gridLayoutManager2 = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        }
+        else
+        {
+            gridLayoutManager2 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        }
+
         rec_product.setLayoutManager(gridLayoutManager2);
 
         productRecycleAdapter = new ProductRecycleAdapter();

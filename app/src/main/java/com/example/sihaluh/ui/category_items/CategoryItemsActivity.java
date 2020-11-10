@@ -1,6 +1,7 @@
 package com.example.sihaluh.ui.category_items;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
@@ -123,7 +124,19 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private void init() {
         rec_product = findViewById(R.id.rec_products);
         rec_product.setHasFixedSize(true);
-        rec_product.setLayoutManager(new GridLayoutManager(this, 2));
+
+        GridLayoutManager gridLayoutManager;
+        int pos=getResources().getConfiguration().orientation;
+        if (pos== Configuration.ORIENTATION_LANDSCAPE)
+        {
+            gridLayoutManager=new GridLayoutManager(this, 3);
+        }
+        else
+        {
+            gridLayoutManager=new GridLayoutManager(this, 2);
+
+        }
+        rec_product.setLayoutManager(gridLayoutManager);
 
         productRecycleAdapter = new ProductRecycleAdapter();
         rec_product.setAdapter(productRecycleAdapter);
@@ -163,9 +176,13 @@ public class CategoryItemsActivity extends AppCompatActivity {
                         @Override
                         public void onChanged(CategoryItemModel categoryItemModel) {
 
-                            productRecycleAdapter.addProducts(categoryItemModel.getProductModelList());
-                            showProgress(false);
-                            productModelList=categoryItemModel.getProductModelList();
+                            if (categoryItemModel!=null)
+                            {
+                                productRecycleAdapter.addProducts(categoryItemModel.getProductModelList());
+                                showProgress(false);
+                                productModelList=categoryItemModel.getProductModelList();
+                            }
+
                         }
                     });
         }

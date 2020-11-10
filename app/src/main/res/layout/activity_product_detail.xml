@@ -267,6 +267,20 @@ android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_shopping_cart_white" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_non_empty"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="16dp"
+
+                android:layout_marginBottom="@dimen/_18sdp"
+                android:foreground="@android:color/holo_orange_light"
+
+                app:cardCornerRadius="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_detail_cart"
+                app:layout_constraintStart_toStartOf="@+id/img_detail_cart"
+                tools:visibility="gone" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -304,7 +318,7 @@ android:layout_marginTop="@dimen/_8sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8sdp"
-        android:background="@color/white"
+        android:background="@color/light_gray2"
         android:elevation="@dimen/_4sdp"
         android:foreground="?attr/selectableItemBackground"
         android:padding="@dimen/_6sdp"

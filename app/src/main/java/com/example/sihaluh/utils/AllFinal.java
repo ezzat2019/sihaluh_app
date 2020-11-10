@@ -9,6 +9,7 @@ public  final class AllFinal {
     public static final String INTENT_CATEGORYNAME="abcd";
     public static final String INTENT_CATEGORYTOOLBAR="abcda";
     public static final String INTENT_PRODUCT_DETIAL="sdfs";
+    public static final String  INTENT_GOTO_CART="dfgdfgd";
 
 
 
