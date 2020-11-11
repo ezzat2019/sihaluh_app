@@ -50,7 +50,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private String catgory_id;
     private List<ProductModel> productModelList = new ArrayList<>();
     private CategoryItemViewmodel categoryItemViewmodel;
-    private DatabaseReference products_ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.CATEGORIES);
+    private final DatabaseReference products_ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.CATEGORIES);
 
 
     @Override
@@ -74,7 +74,6 @@ public class CategoryItemsActivity extends AppCompatActivity {
         }
 
 
-
     }
 
     private void retriveDataFillRec() {
@@ -91,7 +90,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
                     productModel.setSale(snapshot1.child("sale").getValue().toString());
                     productModelList.add(productModel);
                 }
-                CategoryItemModel model=new CategoryItemModel(catgory_id,productModelList);
+                CategoryItemModel model = new CategoryItemModel(catgory_id, productModelList);
                 categoryItemViewmodel.addCategory(model);
                 categoryItemViewmodel.setProductModelListLiveData(productModelList);
 
@@ -109,7 +108,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         productRecycleAdapter.setOnItemProductclick(new ProductRecycleAdapter.onProductClickListener() {
             @Override
             public void onClick(int posOfProduct) {
-               gotoProdutDeatial(posOfProduct);
+                gotoProdutDeatial(posOfProduct);
             }
         });
 
@@ -126,14 +125,11 @@ public class CategoryItemsActivity extends AppCompatActivity {
         rec_product.setHasFixedSize(true);
 
         GridLayoutManager gridLayoutManager;
-        int pos=getResources().getConfiguration().orientation;
-        if (pos== Configuration.ORIENTATION_LANDSCAPE)
-        {
-            gridLayoutManager=new GridLayoutManager(this, 3);
-        }
-        else
-        {
-            gridLayoutManager=new GridLayoutManager(this, 2);
+        int pos = getResources().getConfiguration().orientation;
+        if (pos == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayoutManager = new GridLayoutManager(this, 3);
+        } else {
+            gridLayoutManager = new GridLayoutManager(this, 2);
 
         }
         rec_product.setLayoutManager(gridLayoutManager);
@@ -154,11 +150,10 @@ public class CategoryItemsActivity extends AppCompatActivity {
     }
 
     private void observeViewModel() {
-        categoryItemViewmodel=new ViewModelProvider(this).get(CategoryItemViewmodel.class);
+        categoryItemViewmodel = new ViewModelProvider(this).get(CategoryItemViewmodel.class);
 
-        ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        if (connectivityManager.getActiveNetworkInfo()!=null)
-        {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connectivityManager.getActiveNetworkInfo() != null) {
             categoryItemViewmodel.getProductModelListLiveData()
                     .observe(this, new Observer<List<ProductModel>>() {
                         @Override
@@ -168,19 +163,16 @@ public class CategoryItemsActivity extends AppCompatActivity {
                         }
                     });
 
-        }
-        else
-        {
+        } else {
             categoryItemViewmodel.getCategoryModel(catgory_id).observe(this
                     , new Observer<CategoryItemModel>() {
                         @Override
                         public void onChanged(CategoryItemModel categoryItemModel) {
 
-                            if (categoryItemModel!=null)
-                            {
+                            if (categoryItemModel != null) {
                                 productRecycleAdapter.addProducts(categoryItemModel.getProductModelList());
                                 showProgress(false);
-                                productModelList=categoryItemModel.getProductModelList();
+                                productModelList = categoryItemModel.getProductModelList();
                             }
 
                         }
@@ -188,13 +180,14 @@ public class CategoryItemsActivity extends AppCompatActivity {
         }
 
 
-
     }
+
     private void gotoProdutDeatial(int posOfProduct) {
         Intent intent = new Intent(getApplicationContext(), ProductDetailActivity.class);
         intent.putExtra(AllFinal.INTENT_PRODUCT_DETIAL, productModelList.get(posOfProduct));
         startActivity(intent);
     }
+
     private void showProgress(Boolean show) {
         if (show) {
             rec_product.setVisibility(View.INVISIBLE);

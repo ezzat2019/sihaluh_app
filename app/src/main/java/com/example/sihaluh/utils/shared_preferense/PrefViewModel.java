@@ -5,19 +5,19 @@ import androidx.lifecycle.ViewModel;
 
 
 public class PrefViewModel extends ViewModel {
-    private MySharedPreference mySharedPreference;
+    private final MySharedPreference mySharedPreference;
 
 
     @ViewModelInject
     public PrefViewModel(MySharedPreference mySharedPreference) {
         this.mySharedPreference = mySharedPreference;
     }
-    public void putPhone(String phone)
-    {
+
+    public void putPhone(String phone) {
         mySharedPreference.putMainPhone(phone);
     }
-    public String getPhone()
-    {
+
+    public String getPhone() {
         return mySharedPreference.getMainPhone();
     }
 }

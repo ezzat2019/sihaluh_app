@@ -163,7 +163,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         for (ProductModel p : productModelArrayList) {
 
-            if (p.getId().equals(productModel.getId().toString())) {
+            if (p.getId().equals(productModel.getId())) {
                 Toast.makeText(this, "this product already exsit!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -222,12 +222,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             if (cartItemModel != null) {
                                 cartItemModeltest = cartItemModel;
                                 productModelArrayList = (ArrayList<ProductModel>) cartItemModel.getProductModelList();
-                                if (productModelArrayList.size() == 0) {
-                                    showCardView(false);
-                                } else {
-
-                                    showCardView(true);
-                                }
+                                showCardView(productModelArrayList.size() != 0);
                                 Log.d("nnnnnnnn", "onChanged: " + productModelArrayList.size());
                                 Log.d("nnnnnnnn", "onChanged: " + productModelArrayList.toString());
                             }

@@ -4,7 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class CategoriesModel implements Parcelable {
-    private String name,img,id;
+    public static final Creator<CategoriesModel> CREATOR = new Creator<CategoriesModel>() {
+        @Override
+        public CategoriesModel createFromParcel(Parcel in) {
+            return new CategoriesModel(in);
+        }
+
+        @Override
+        public CategoriesModel[] newArray(int size) {
+            return new CategoriesModel[size];
+        }
+    };
+    private String name, img, id;
 
     public CategoriesModel() {
     }
@@ -13,6 +24,12 @@ public class CategoriesModel implements Parcelable {
         name = in.readString();
         img = in.readString();
         id = in.readString();
+    }
+
+    public CategoriesModel(String name, String img, String id) {
+        this.name = name;
+        this.img = img;
+        this.id = id;
     }
 
     @Override
@@ -26,18 +43,6 @@ public class CategoriesModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<CategoriesModel> CREATOR = new Creator<CategoriesModel>() {
-        @Override
-        public CategoriesModel createFromParcel(Parcel in) {
-            return new CategoriesModel(in);
-        }
-
-        @Override
-        public CategoriesModel[] newArray(int size) {
-            return new CategoriesModel[size];
-        }
-    };
 
     public String getName() {
         return name;
@@ -60,12 +65,6 @@ public class CategoriesModel implements Parcelable {
     }
 
     public void setId(String id) {
-        this.id = id;
-    }
-
-    public CategoriesModel(String name, String img, String id) {
-        this.name = name;
-        this.img = img;
         this.id = id;
     }
 }

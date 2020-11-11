@@ -12,8 +12,8 @@ import com.example.sihaluh.data.repository.CategoryItemRepo;
 import java.util.List;
 
 public class CategoryItemViewmodel extends ViewModel {
-    private MutableLiveData<List<ProductModel>> productModelListLiveData = new MutableLiveData<>();
-    private CategoryItemRepo repo;
+    private final MutableLiveData<List<ProductModel>> productModelListLiveData = new MutableLiveData<>();
+    private final CategoryItemRepo repo;
 
     @ViewModelInject
     public CategoryItemViewmodel(CategoryItemRepo repo) {
@@ -28,12 +28,11 @@ public class CategoryItemViewmodel extends ViewModel {
         this.productModelListLiveData.setValue(productModelList);
     }
 
-    public void addCategory(CategoryItemModel categoryItemModel)
-    {
+    public void addCategory(CategoryItemModel categoryItemModel) {
         repo.setCategory(categoryItemModel);
     }
-    public LiveData<CategoryItemModel> getCategoryModel(String id)
-    {
+
+    public LiveData<CategoryItemModel> getCategoryModel(String id) {
         return repo.getCategortModel(id);
     }
 }

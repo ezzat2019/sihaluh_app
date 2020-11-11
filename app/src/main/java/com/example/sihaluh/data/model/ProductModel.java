@@ -10,20 +10,31 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "products")
 public class ProductModel implements Parcelable {
+    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
+        @Override
+        public ProductModel createFromParcel(Parcel in) {
+            return new ProductModel(in);
+        }
+
+        @Override
+        public ProductModel[] newArray(int size) {
+            return new ProductModel[size];
+        }
+    };
     @ColumnInfo(name = "img")
-     String img;
+    String img;
     @ColumnInfo(name = "name")
-     String name;
+    String name;
     @ColumnInfo(name = "owner")
-     String owner;
+    String owner;
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
-     String id;
+    String id;
     @ColumnInfo(name = "sale")
-     String sale;
+    String sale;
     @ColumnInfo(name = "price")
-     String price;
+    String price;
 
     protected ProductModel(Parcel in) {
         img = in.readString();
@@ -32,6 +43,18 @@ public class ProductModel implements Parcelable {
         id = in.readString();
         sale = in.readString();
         price = in.readString();
+    }
+
+    public ProductModel(String img, String name, String owner, String id, String sale, String price) {
+        this.img = img;
+        this.name = name;
+        this.owner = owner;
+        this.id = id;
+        this.sale = sale;
+        this.price = price;
+    }
+
+    public ProductModel() {
     }
 
     @Override
@@ -48,18 +71,6 @@ public class ProductModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
-        @Override
-        public ProductModel createFromParcel(Parcel in) {
-            return new ProductModel(in);
-        }
-
-        @Override
-        public ProductModel[] newArray(int size) {
-            return new ProductModel[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -82,15 +93,6 @@ public class ProductModel implements Parcelable {
     }
 
     public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public ProductModel(String img, String name, String owner, String id, String sale, String price) {
-        this.img = img;
-        this.name = name;
-        this.owner = owner;
-        this.id = id;
-        this.sale = sale;
         this.price = price;
     }
 
@@ -128,10 +130,5 @@ public class ProductModel implements Parcelable {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-
-
-    public ProductModel() {
     }
 }

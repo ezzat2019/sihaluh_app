@@ -12,8 +12,6 @@ import com.example.sihaluh.data.model.ProductModel;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Flowable;
-
 
 @Dao
 public interface CashDataDao {
@@ -35,9 +33,6 @@ public interface CashDataDao {
 
     @Query("select * from cartitems where user_id=:id")
     LiveData<CartItemModel> getCartItem(String id);
-
-
-
 
 
 }

@@ -22,10 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.RegisterModel;
 import com.example.sihaluh.ui.home.HomeActivity;
-import com.example.sihaluh.ui.launch.LaunchActivity;
 import com.example.sihaluh.ui.launch.fragment.login.forget_password.ForgetPasswordBottomSheetFragment;
 import com.example.sihaluh.utils.AllFinal;
-import com.example.sihaluh.utils.receiver.MyReceiver;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,12 +48,11 @@ public class LoginFragment extends Fragment {
     private BottomSheetDialogFragment bottomSheetDialog;
 
     // var
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference ref_login = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private final DatabaseReference ref_login = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
     private String phone, password;
     private PrefViewModel prefViewModel;
-
 
 
     @Override
@@ -64,10 +61,7 @@ public class LoginFragment extends Fragment {
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
 
 
-
-
     }
-
 
 
     @Override
@@ -86,7 +80,6 @@ public class LoginFragment extends Fragment {
 
         actions();
     }
-
 
 
     private Boolean checkEditedTextLogin() {
@@ -111,9 +104,6 @@ public class LoginFragment extends Fragment {
     private void actions() {
 
 
-
-
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,14 +115,12 @@ public class LoginFragment extends Fragment {
         });
 
 
-
         txt_forget_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                bottomSheetDialog.show(getParentFragmentManager(),"sh1");
-
+                bottomSheetDialog.show(getParentFragmentManager(), "sh1");
 
 
             }
@@ -142,15 +130,14 @@ public class LoginFragment extends Fragment {
     private void login() {
         phone = ed_login_phone.getText().toString().trim();
         password = ed_login_pass.getText().toString();
-        ConnectivityManager connectivityManager= (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-       if (connectivityManager.getActiveNetworkInfo()==null)
-       {
-           Toast.makeText(getContext(), "check internet connection!", Toast.LENGTH_SHORT).show();
-           return;
-       }
+        if (connectivityManager.getActiveNetworkInfo() == null) {
+            Toast.makeText(getContext(), "check internet connection!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-           ref_login.child(phone).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref_login.child(phone).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -202,8 +189,7 @@ public class LoginFragment extends Fragment {
         txt_forget_pass = v.findViewById(R.id.txt_forget_pass);
 
 
-
-        bottomSheetDialog=new ForgetPasswordBottomSheetFragment();
+        bottomSheetDialog = new ForgetPasswordBottomSheetFragment();
 
 
     }

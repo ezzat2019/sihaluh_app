@@ -9,7 +9,7 @@ import com.example.sihaluh.data.repository.MyCartRepo;
 
 public class MyCartViewModel extends ViewModel {
 
-    private MyCartRepo myCartRepo;
+    private final MyCartRepo myCartRepo;
 
     @ViewModelInject
     public MyCartViewModel(MyCartRepo myCartRepo) {

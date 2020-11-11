@@ -1,19 +1,17 @@
 package com.example.sihaluh.ui.home.fagement.job_post;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.ui.home.HomeActivity;
 
 
 public class JobPostFragment extends Fragment {
-
 
 
     public JobPostFragment() {
@@ -33,6 +31,7 @@ public class JobPostFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_job_post, container, false);
     }
+
     @Override
     public void onStart() {
         super.onStart();

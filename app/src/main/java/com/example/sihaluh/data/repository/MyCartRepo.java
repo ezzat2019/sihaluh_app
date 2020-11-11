@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MyCartRepo {
 
-    private CashDataDao cashDataDao;
+    private final CashDataDao cashDataDao;
 
     @Inject
     public MyCartRepo(CashDataDao cashDataDao) {
@@ -37,7 +37,7 @@ public class MyCartRepo {
                 .observeOn(Schedulers.io()).subscribe();
     }
 
-    public LiveData<CartItemModel> getMyCartItems(String user_id){
+    public LiveData<CartItemModel> getMyCartItems(String user_id) {
         return cashDataDao.getCartItem(user_id);
     }
 }

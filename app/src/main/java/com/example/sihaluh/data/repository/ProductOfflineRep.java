@@ -21,16 +21,16 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ProductOfflineRep {
-    private CashDataDao cashDataDao;
-   List<ProductModel> mutableLiveData=new ArrayList<>();
+    List<ProductModel> mutableLiveData = new ArrayList<>();
+    private final CashDataDao cashDataDao;
 
     @Inject
     public ProductOfflineRep(CashDataDao cashDataDao) {
         this.cashDataDao = cashDataDao;
     }
-    public void setnewProduct(ProductModel productModel)
-    {
-        Observer observer=new Observer() {
+
+    public void setnewProduct(ProductModel productModel) {
+        Observer observer = new Observer() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
 
@@ -43,7 +43,7 @@ public class ProductOfflineRep {
 
             @Override
             public void onError(@NonNull Throwable e) {
-                Log.d("HomeViewModel", "onerror "+e.getMessage());
+                Log.d("HomeViewModel", "onerror " + e.getMessage());
 
             }
 
@@ -67,9 +67,8 @@ public class ProductOfflineRep {
 
     }
 
-    public LiveData<List<ProductModel>>getAllProducts()
-    {
+    public LiveData<List<ProductModel>> getAllProducts() {
 
-     return cashDataDao.getProductList();
+        return cashDataDao.getProductList();
     }
 }

@@ -7,17 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.ui.home.HomeActivity;
 
 
 public class NotificationsFragment extends Fragment {
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -28,6 +24,7 @@ public class NotificationsFragment extends Fragment {
 
         return root;
     }
+
     @Override
     public void onStart() {
         super.onStart();

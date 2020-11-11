@@ -1,7 +1,6 @@
 package com.example.sihaluh.ui.launch.fragment.login.forget_password;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +16,7 @@ import com.example.sihaluh.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>A fragment that shows a list of items as a modal bottom sheet.</p>
@@ -40,7 +32,7 @@ public class ForgetPasswordBottomSheetFragment extends BottomSheetDialogFragment
     private Button btn_confirm;
 
     // var
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
     @Nullable
@@ -63,7 +55,6 @@ public class ForgetPasswordBottomSheetFragment extends BottomSheetDialogFragment
     private void action() {
 
 
-
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +66,7 @@ public class ForgetPasswordBottomSheetFragment extends BottomSheetDialogFragment
                 mAuth.sendPasswordResetEmail(email).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), e.getMessage()+"", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), e.getMessage() + "", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -86,7 +77,6 @@ public class ForgetPasswordBottomSheetFragment extends BottomSheetDialogFragment
 
             }
         });
-
 
 
     }

@@ -39,7 +39,6 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
 
-
         if (getIntent().hasExtra(AllFinal.INTENT_ALLCATEGORY)) {
             categoriesModelList = getIntent().getParcelableArrayListExtra(AllFinal.INTENT_ALLCATEGORY);
             if (categoriesModelList.isEmpty()) {
@@ -63,9 +62,9 @@ public class CategoryActivity extends AppCompatActivity {
         categoryAllRecAdapter.setOnItemCatClick(new CategoryAllRecAdapter.OnItemCatAllListener() {
             @Override
             public void onClick(int pos) {
-                Intent intent=new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                intent.putExtra(AllFinal.INTENT_CATEGORYNAME,categoriesModelList.get(pos).getId());
-                intent.putExtra(AllFinal.INTENT_CATEGORYTOOLBAR,categoriesModelList.get(pos).getName());
+                Intent intent = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                intent.putExtra(AllFinal.INTENT_CATEGORYNAME, categoriesModelList.get(pos).getId());
+                intent.putExtra(AllFinal.INTENT_CATEGORYTOOLBAR, categoriesModelList.get(pos).getName());
 
                 startActivity(intent);
             }
@@ -92,17 +91,14 @@ public class CategoryActivity extends AppCompatActivity {
         rec_cat.setHasFixedSize(true);
         rec_cat.setAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
         rec_cat.setNestedScrollingEnabled(false);
-        int pos=getResources().getConfiguration().orientation;
+        int pos = getResources().getConfiguration().orientation;
 
         GridLayoutManager gridLayoutManager;
-        if (pos== Configuration.ORIENTATION_LANDSCAPE)
-        {
-            gridLayoutManager=new GridLayoutManager(this
+        if (pos == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayoutManager = new GridLayoutManager(this
                     , 4);
-        }
-        else
-        {
-            gridLayoutManager=new GridLayoutManager(this
+        } else {
+            gridLayoutManager = new GridLayoutManager(this
                     , 3);
         }
         rec_cat.setLayoutManager(gridLayoutManager);

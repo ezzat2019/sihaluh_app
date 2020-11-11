@@ -11,7 +11,7 @@ import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.utils.room_helper.Converter;
 
 
-@Database(entities = {ProductModel.class, CategoryItemModel.class, CartItemModel.class},version = 9,exportSchema = false)
+@Database(entities = {ProductModel.class, CategoryItemModel.class, CartItemModel.class}, version = 9, exportSchema = false)
 @TypeConverters(Converter.class)
 public abstract class MainDataBase extends RoomDatabase {
 

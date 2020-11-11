@@ -1,7 +1,7 @@
 package com.example.sihaluh.data.model;
 
 public class RegisterModel {
-    private String id,name,email,phone;
+    private String id, name, email, phone;
 
     public RegisterModel(String id, String name, String email, String phone) {
         this.id = id;

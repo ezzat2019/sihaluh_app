@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,9 +49,9 @@ public class HomeFragment extends Fragment {
 
 
     // var
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference reference_cat = database.getReference().child(AllFinal.CATEGORIES);
-    private ArrayList<CategoriesModel> categoriesModelList = new ArrayList<>();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference reference_cat = database.getReference().child(AllFinal.CATEGORIES);
+    private final ArrayList<CategoriesModel> categoriesModelList = new ArrayList<>();
     private List<ProductModel> productModelList = new ArrayList<>();
     private HomeViewModel homeViewModel;
     private CategoryAdapter categoryAdapter;
@@ -80,10 +79,7 @@ public class HomeFragment extends Fragment {
 
     private Boolean checkInternetConncertion() {
         ConnectivityManager networkRequest = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (networkRequest.getActiveNetworkInfo() != null) {
-            return true;
-        }
-        return false;
+        return networkRequest.getActiveNetworkInfo() != null;
     }
 
     private void obsereViewModel() {
@@ -96,16 +92,16 @@ public class HomeFragment extends Fragment {
                 }
             });
         } else {
-            if (homeViewModel.getProductOffline()!=null)
-            { homeViewModel.getProductOffline().observe(getViewLifecycleOwner()
-                    , new Observer<List<ProductModel>>() {
-                        @Override
-                        public void onChanged(List<ProductModel> productModelList2) {
-                            productRecycleAdapter.addProducts(productModelList2);
-                            homeViewModel.setResult_num(productModelList2.size());
-                            productModelList=productModelList2;
-                        }
-                    });
+            if (homeViewModel.getProductOffline() != null) {
+                homeViewModel.getProductOffline().observe(getViewLifecycleOwner()
+                        , new Observer<List<ProductModel>>() {
+                            @Override
+                            public void onChanged(List<ProductModel> productModelList2) {
+                                productRecycleAdapter.addProducts(productModelList2);
+                                homeViewModel.setResult_num(productModelList2.size());
+                                productModelList = productModelList2;
+                            }
+                        });
 
             }
 
@@ -245,13 +241,10 @@ public class HomeFragment extends Fragment {
         rec_product.setNestedScrollingEnabled(false);
         // rec_product.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager2;
-        int orination=getResources().getConfiguration().orientation;
-        if (orination==Configuration.ORIENTATION_LANDSCAPE)
-        {
+        int orination = getResources().getConfiguration().orientation;
+        if (orination == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager2 = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
-        }
-        else
-        {
+        } else {
             gridLayoutManager2 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         }
 
@@ -264,8 +257,7 @@ public class HomeFragment extends Fragment {
         txt_home_result = view.findViewById(R.id.txt_home_result);
 
         txt_home_more = view.findViewById(R.id.txt_home_more);
-        if (checkInternetConncertion())
-        {
+        if (checkInternetConncertion()) {
             getProducts();
         }
 
@@ -276,7 +268,6 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         HomeActivity.txt_name_bar.setText(getString(R.string.title_home));
-
 
 
     }

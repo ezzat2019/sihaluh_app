@@ -1,5 +1,6 @@
 package com.example.sihaluh.ui.home.fagement.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.cart.adapter.CartAdapter;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
+import com.example.sihaluh.ui.order_complete.OrderDetailActivity;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 
 import java.util.ArrayList;
@@ -36,9 +38,9 @@ public class CartFragment extends Fragment {
     // ui
     private NestedScrollView nestedScrollView;
     private ConstraintLayout view_include;
-    private Button btn_cart_empty_continue;
+    private Button btn_cart_empty_continue, btn_complete_order;
     private RecyclerView rec_cart;
-    private  TextView txt_total_price;
+    private TextView txt_total_price;
 
 
     // var
@@ -46,9 +48,9 @@ public class CartFragment extends Fragment {
     private PrefViewModel prefViewModel;
     private ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
     private CartAdapter cartAdapter;
-    private   Double totlal_price=0.0;
-    private  int num;
-    private boolean iam_remove=false;
+    private Double totlal_price = 0.0;
+    private int num;
+    private boolean iam_remove = false;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,6 +70,15 @@ public class CartFragment extends Fragment {
 
     private void actions() {
 
+        btn_complete_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
         btn_cart_empty_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,37 +89,34 @@ public class CartFragment extends Fragment {
             @Override
             public void onAdd(int pos, TextView txt_num) {
 
-                int num=Integer.parseInt(txt_num.getText().toString());
+                int num = Integer.parseInt(txt_num.getText().toString());
                 num++;
-                Double price=Double.parseDouble(productModelArrayList.get(pos).getPrice());
-                totlal_price+=(price);
-                txt_num.setText(num+"");
-                txt_total_price.setText("EGP "+totlal_price);
+                Double price = Double.parseDouble(productModelArrayList.get(pos).getPrice());
+                totlal_price += (price);
+                txt_num.setText(num + "");
+                txt_total_price.setText("EGP " + totlal_price);
 
             }
 
             @Override
             public void onminus(int pos, TextView txt_num) {
-                 num=Integer.parseInt(txt_num.getText().toString());
-                if (num==1)
-                {
+                num = Integer.parseInt(txt_num.getText().toString());
+                if (num == 1) {
                     return;
                 }
                 num--;
-                Double price=Double.parseDouble(productModelArrayList.get(pos).getPrice());
-                totlal_price-=(price);
-                txt_num.setText(num+"");
-                txt_total_price.setText("EGP "+totlal_price);
+                Double price = Double.parseDouble(productModelArrayList.get(pos).getPrice());
+                totlal_price -= (price);
+                txt_num.setText(num + "");
+                txt_total_price.setText("EGP " + totlal_price);
 
             }
 
             @Override
             public void onremoveItem(int pos, TextView txt_num) {
-                 num=Integer.parseInt(txt_num.getText().toString());
+                num = Integer.parseInt(txt_num.getText().toString());
 
-                Double price=Double.parseDouble(productModelArrayList.get(pos).getPrice());
-
-
+                Double price = Double.parseDouble(productModelArrayList.get(pos).getPrice());
 
 
                 productModelArrayList.remove(pos);
@@ -117,12 +125,12 @@ public class CartFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        iam_remove=true;
-                        myCartViewModel.addProductToCar(new CartItemModel(prefViewModel.getPhone(),productModelArrayList));
-                        totlal_price-=(num*price);
-                        txt_total_price.setText("EGP "+totlal_price);
+                        iam_remove = true;
+                        myCartViewModel.addProductToCar(new CartItemModel(prefViewModel.getPhone(), productModelArrayList));
+                        totlal_price -= (num * price);
+                        txt_total_price.setText("EGP " + totlal_price);
                     }
-                },400);
+                }, 400);
 
 
             }
@@ -133,7 +141,8 @@ public class CartFragment extends Fragment {
         nestedScrollView = v.findViewById(R.id.nestes_scroll_empty_cart);
         view_include = v.findViewById(R.id.include_cart);
         btn_cart_empty_continue = v.findViewById(R.id.btn_cart_empty_continue);
-        txt_total_price=v.findViewById(R.id.txt_total_price);
+        txt_total_price = v.findViewById(R.id.txt_total_price);
+        btn_complete_order = v.findViewById(R.id.btn_complete_order);
 
 
         myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
@@ -147,7 +156,6 @@ public class CartFragment extends Fragment {
         observViewModel();
 
 
-
     }
 
     private void buildRecycle() {
@@ -158,6 +166,8 @@ public class CartFragment extends Fragment {
 
     private void observViewModel() {
         if (myCartViewModel.getMyCartProducts(prefViewModel.getPhone()) != null) {
+            nestedScrollView.setVisibility(View.VISIBLE);
+            view_include.setVisibility(View.GONE);
             myCartViewModel.getMyCartProducts(prefViewModel.getPhone())
                     .observe(getViewLifecycleOwner(), new Observer<CartItemModel>() {
                         @Override
@@ -166,6 +176,7 @@ public class CartFragment extends Fragment {
                                 productModelArrayList = (ArrayList<ProductModel>) cartItemModel.getProductModelList();
                                 cartAdapter.setProductModelList(productModelArrayList);
                                 if (productModelArrayList.isEmpty()) {
+
 
                                     nestedScrollView.setVisibility(View.VISIBLE);
                                     view_include.setVisibility(View.GONE);
@@ -178,27 +189,24 @@ public class CartFragment extends Fragment {
                                     calculateTotalPrice(productModelArrayList);
 
 
-
-
-
                                 }
                             }
                         }
                     });
+        } else {
+
         }
     }
 
     private void calculateTotalPrice(ArrayList<ProductModel> productModelArrayList) {
-        if (!iam_remove)
-        {
-            for (ProductModel productModel:productModelArrayList)
-            {
-                totlal_price+=Double.parseDouble(productModel.getPrice());
+        if (!iam_remove) {
+            for (ProductModel productModel : productModelArrayList) {
+                totlal_price += Double.parseDouble(productModel.getPrice());
             }
-            txt_total_price.setText("EGP "+totlal_price);
+            txt_total_price.setText("EGP " + totlal_price);
 
         }
-        iam_remove=false;
+        iam_remove = false;
 
 
     }

@@ -18,12 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAdapter.ProductVH> {
-    private List<ProductModel> productModelList = new ArrayList<>();
     public onProductClickListener onProductClickListener;
-
-    public interface onProductClickListener {
-        public void onClick(int posOfProduct);
-    }
+    private List<ProductModel> productModelList = new ArrayList<>();
 
     public void addProducts(List<ProductModel> productModelList) {
         this.productModelList = productModelList;
@@ -46,7 +42,7 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
 
     @Override
     public void onBindViewHolder(@NonNull ProductVH holder, int position) {
-        Log.d("ccccccccc", "fillData: "+productModelList.size());
+        Log.d("ccccccccc", "fillData: " + productModelList.size());
         holder.fillData(productModelList.get(position));
     }
 
@@ -55,8 +51,12 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
         return productModelList.size();
     }
 
+    public interface onProductClickListener {
+        void onClick(int posOfProduct);
+    }
+
     class ProductVH extends RecyclerView.ViewHolder {
-        private View v;
+        private final View v;
         private TextView txt_name, txt_price, txt_sale;
         private ImageView img_product, img_cart;
 
@@ -78,18 +78,18 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
         }
 
         public void fillData(ProductModel productModel) {
-            Log.d("ccccccccc", "fillData: "+productModel.toString());
+            Log.d("ccccccccc", "fillData: " + productModel.toString());
 
-                txt_name.setText(productModel.getName());
-                txt_price.setText(productModel.getPrice()+" SAR");
-                Double num = Double.parseDouble(productModel.getSale());
-                if (num == 1) {
-                    txt_sale.setText("%");
-                } else {
-                    txt_sale.setText(num + " %");
-                }
-                Glide.with(v.getContext())
-                        .load(productModel.getImg()).placeholder(R.drawable.ic_launcher_foreground).into(img_product);
+            txt_name.setText(productModel.getName());
+            txt_price.setText(productModel.getPrice() + " SAR");
+            Double num = Double.parseDouble(productModel.getSale());
+            if (num == 1) {
+                txt_sale.setText("%");
+            } else {
+                txt_sale.setText(num + " %");
+            }
+            Glide.with(v.getContext())
+                    .load(productModel.getImg()).placeholder(R.drawable.ic_launcher_foreground).into(img_product);
 
         }
 

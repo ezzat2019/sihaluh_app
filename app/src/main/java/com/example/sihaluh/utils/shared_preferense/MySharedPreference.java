@@ -7,16 +7,14 @@ import com.example.sihaluh.utils.AllFinal;
 
 import javax.inject.Inject;
 
-import dagger.hilt.android.AndroidEntryPoint;
-
 
 public class MySharedPreference {
 
-     private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
-     private SharedPreferences.Editor editor;
+    private final SharedPreferences.Editor editor;
 
-@Inject
+    @Inject
     public MySharedPreference(SharedPreferences sharedPreferences, SharedPreferences.Editor editor) {
         this.sharedPreferences = sharedPreferences;
         this.editor = editor;

@@ -17,28 +17,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVH> {
-    private List<CategoriesModel> categoriesModelList=new ArrayList<>();
     public OnItemCatListener onItemCatListener;
-    public interface OnItemCatListener{
-        void onClick(int pos);
-    }
+    private List<CategoriesModel> categoriesModelList = new ArrayList<>();
 
-
-    public void setOnItemCatListener(OnItemCatListener onItemCatListener)
-    {
-        this.onItemCatListener=onItemCatListener;
+    public void setOnItemCatListener(OnItemCatListener onItemCatListener) {
+        this.onItemCatListener = onItemCatListener;
 
     }
+
     @NonNull
     @Override
     public CatVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cat_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.cat_item, parent, false);
         return new CatVH(view);
     }
-    public void addCategory(List<CategoriesModel>categoriesModelList)
-    {
-        this.categoriesModelList=categoriesModelList;
+
+    public void addCategory(List<CategoriesModel> categoriesModelList) {
+        this.categoriesModelList = categoriesModelList;
         notifyDataSetChanged();
     }
 
@@ -53,15 +49,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVH>
         return 4;
     }
 
-    class CatVH extends RecyclerView.ViewHolder
-    {
-         private ImageView img_cat;
+    public interface OnItemCatListener {
+        void onClick(int pos);
+    }
+
+    class CatVH extends RecyclerView.ViewHolder {
+        private ImageView img_cat;
         private TextView txt_name;
-        private View vv;
+        private final View vv;
 
         public CatVH(@NonNull View itemView) {
             super(itemView);
-            this.vv=itemView;
+            this.vv = itemView;
             init(itemView);
 
             actions();
@@ -76,14 +75,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVH>
             });
         }
 
-        public void fiiView(CategoriesModel categoriesModel)
-        {
+        public void fiiView(CategoriesModel categoriesModel) {
             txt_name.setText(categoriesModel.getName());
             Glide.with(vv.getContext()).load(categoriesModel.getImg()).into(img_cat);
         }
+
         private void init(View v) {
-            img_cat=v.findViewById(R.id.img_cat_item);
-            txt_name=v.findViewById(R.id.txt_cat_item);
+            img_cat = v.findViewById(R.id.img_cat_item);
+            txt_name = v.findViewById(R.id.txt_cat_item);
 
         }
     }

@@ -18,14 +18,8 @@ import java.util.List;
 
 public class CategoryAllRecAdapter extends RecyclerView.Adapter<CategoryAllRecAdapter.RecAllCatVH> {
 
-    private List<CategoriesModel> categoriesModelList = new ArrayList<>();
     public OnItemCatAllListener onItemCatAllListener;
-
-    public interface OnItemCatAllListener
-    {
-        void onClick(int pos);
-    }
-
+    private List<CategoriesModel> categoriesModelList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -35,11 +29,10 @@ public class CategoryAllRecAdapter extends RecyclerView.Adapter<CategoryAllRecAd
         return new RecAllCatVH(v);
     }
 
-
-    public void setOnItemCatClick(OnItemCatAllListener onItemCatClick)
-    {
-        this.onItemCatAllListener=onItemCatClick;
+    public void setOnItemCatClick(OnItemCatAllListener onItemCatClick) {
+        this.onItemCatAllListener = onItemCatClick;
     }
+
     public void addAllCategory(List<CategoriesModel> categoriesModelList) {
         this.categoriesModelList = categoriesModelList;
         notifyDataSetChanged();
@@ -56,10 +49,14 @@ public class CategoryAllRecAdapter extends RecyclerView.Adapter<CategoryAllRecAd
         return categoriesModelList.size();
     }
 
+    public interface OnItemCatAllListener {
+        void onClick(int pos);
+    }
+
     class RecAllCatVH extends RecyclerView.ViewHolder {
 
 
-        private View v;
+        private final View v;
         private TextView txt_name;
         private ImageView img_cat;
 

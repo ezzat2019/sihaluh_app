@@ -34,9 +34,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class HomeActivity extends AppCompatActivity {
+    public static TextView txt_name_bar;
     // ui
     private BottomNavigationView navView;
-    public static TextView txt_name_bar;
     private ImageView img_signup, img_home_cart;
     private CardView card_non_empty_home;
 
@@ -96,10 +96,8 @@ public class HomeActivity extends AppCompatActivity {
                         @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onChanged(CartItemModel cartItemModel) {
-                            if (cartItemModel!=null)
-                            {
-                                if (cartItemModel.productModelList.size()>0)
-                                {
+                            if (cartItemModel != null) {
+                                if (cartItemModel.productModelList.size() > 0) {
                                     showCard(true);
                                     navView.getOrCreateBadge(R.id.navigation_cart).setBackgroundColor(getColor(
                                             android.R.color.holo_orange_dark
@@ -108,9 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                                     );
                                     navView.getOrCreateBadge(R.id.navigation_cart).setNumber(cartItemModel.productModelList.size());
 
-                                }
-                                else
-                                {
+                                } else {
                                     showCard(false);
                                     navView.removeBadge(R.id.navigation_cart);
 

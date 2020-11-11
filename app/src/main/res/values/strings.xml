@@ -14,4 +14,5 @@
     <string name="title_cart">Cart</string>
     <string name="title_post_job">Post Job</string>
     <string name="title_chat">Chat</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
