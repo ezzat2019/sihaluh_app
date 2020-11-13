@@ -22,8 +22,11 @@ import com.example.sihaluh.data.model.CartItemModel;
 import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
+import com.example.sihaluh.ui.product_detial.fragment.FullImageFragment;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
+import com.github.chrisbanes.photoview.PhotoView;
+
 
 import java.util.ArrayList;
 
@@ -32,11 +35,13 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class ProductDetailActivity extends AppCompatActivity {
     // ui
-    private ImageView img_detail_item, img_detial_back, img_detail_cart, img_detail_share;
+    private ImageView img_detail_item;
+    private ImageView  img_detial_back, img_detail_cart, img_detail_share;
     private TextView txt_detail_name, txt_detial_price;
     private ImageButton img_chat;
     private Button btn_detail_add_cart;
     private CardView card_non_empty;
+
 
 
     // var
@@ -47,6 +52,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private PrefViewModel prefViewModel;
     private ArrayList<ProductModel> productModelArrayList;
     private CartItemModel cartItemModeltest;
+    private FullImageFragment fullImageFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +123,17 @@ public class ProductDetailActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra(AllFinal.INTENT_GOTO_CART, true);
                 startActivity(intent);
+            }
+        });
+        img_detail_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!productModel.getImg().isEmpty())
+                {
+                    fullImageFragment=FullImageFragment.newInstance(productModel.getImg());
+                    fullImageFragment.show(getSupportFragmentManager(),"im1");
+                }
+
             }
         });
 

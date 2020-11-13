@@ -31,14 +31,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/img_detail_item"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
@@ -206,12 +206,12 @@ android:layout_marginTop="@dimen/_8sdp"
                 android:id="@+id/txt_detial_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00 SAR "
-                android:textSize="@dimen/_14sdp"
-                android:textStyle="bold"
-                android:textColor="@color/move"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:text="00 SAR "
+                android:textColor="@color/move"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/img_detail_share"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/img_detail_share"
