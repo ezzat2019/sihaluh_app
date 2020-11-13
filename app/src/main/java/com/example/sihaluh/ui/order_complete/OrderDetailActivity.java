@@ -1,10 +1,10 @@
 package com.example.sihaluh.ui.order_complete;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +18,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sihaluh.R;
+import com.example.sihaluh.data.model.AdressUserModel;
 import com.example.sihaluh.data.model.RegisterModel;
+import com.example.sihaluh.ui.end_oreder.EndOrderActivity;
 import com.example.sihaluh.ui.order_complete.fragment.MapsFragment;
 import com.example.sihaluh.ui.order_complete.viewmodel.OrderDetailViewModel;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,33 +43,31 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class OrderDetailActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks,
         EasyPermissions.RationaleCallbacks {
     public static OrderDetailViewModel viewModel;
-    private static CardView card_map;
+    private CardView card_map;
     // ui
     private EditText ed_loction_oreder_adress;
     private TextInputEditText ed_name_oreder_adress, ed_phone_oreder_adress;
     private Button btn_get_loction, btn_next;
     private ImageView img_order_detail_back;
+
     // var
     private MapsFragment mapFragment;
     private PrefViewModel prefViewModel;
     private final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
-    private String phone;
+    private final DatabaseReference reference_adress = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_ADRESS_USER);
+    public static String phone;
+    private AdressUserModel adressUserModel;
 
-    public static void showCard(Boolean b) {
+    public void showCard(Boolean b) {
         if (b) {
             card_map.setAlpha(0.0f);
             card_map.setVisibility(View.VISIBLE);
             card_map.animate().alpha(1.0f).setDuration(500);
-
+            Log.d("zzzzzzzzzzzz", "onAnimationCancel: 4");
 
         } else {
-            card_map.animate().alpha(0).setDuration(500).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    super.onAnimationCancel(animation);
-                    card_map.setVisibility(View.GONE);
-                }
-            });
+            card_map.animate().alpha(0).setDuration(500);
+            card_map.setVisibility(View.GONE);
 
 
         }
@@ -81,6 +83,7 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
         actions();
     }
 
+
     private void actions() {
 
         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +92,31 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
                 if (checkEditText()) {
                     ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                     if (manager.getActiveNetworkInfo() != null) {
-                        Toast.makeText(OrderDetailActivity.this, "next", Toast.LENGTH_SHORT).show();
+                        if (adressUserModel!=null)
+                        {
+                            reference_adress.child(phone)
+                                    .setValue(adressUserModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Intent intent=new Intent(getApplicationContext(), EndOrderActivity.class);
+                                    startActivity(intent);
+
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(OrderDetailActivity.this, e.getMessage()+"", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                        else
+                        {
+                            Toast.makeText(OrderDetailActivity.this, "error try get your loction again!", Toast.LENGTH_SHORT).show();
+                        }
+
+
+
                     } else {
                         Toast.makeText(OrderDetailActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                     }
@@ -191,11 +218,16 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
         viewModel = new ViewModelProvider(this).get(OrderDetailViewModel.class);
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
         viewModel.getLiveLoctionName().observe(this
-                , new Observer<String>() {
+                , new Observer<AdressUserModel>() {
                     @Override
-                    public void onChanged(String s) {
-                        if (s != null && !s.isEmpty())
-                            ed_loction_oreder_adress.setText(s);
+                    public void onChanged(AdressUserModel s) {
+                        if (s != null && !s.getLoction_name().isEmpty())
+                        {
+                            adressUserModel=s;
+                            ed_loction_oreder_adress.setText(s.getLoction_name());
+
+                        }
+
 
                     }
                 });
@@ -227,12 +259,15 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
 
     @Override
     public void onBackPressed() {
-        if (card_map.getVisibility() == View.VISIBLE) {
-            getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
+        if (card_map.getVisibility() == View.GONE) {
+            Log.d("zzzzz", "onBackPressed: 2");
+            super.onBackPressed();
+        } else {
+
             showCard(false);
-            return;
+            getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
+            Log.d("zzzzz", "onBackPressed: 1");
         }
-        super.onBackPressed();
     }
 
 

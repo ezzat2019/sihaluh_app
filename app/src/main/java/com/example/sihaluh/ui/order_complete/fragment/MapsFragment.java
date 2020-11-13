@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.sihaluh.R;
+import com.example.sihaluh.data.model.AdressUserModel;
 import com.example.sihaluh.ui.order_complete.OrderDetailActivity;
 import com.example.sihaluh.ui.order_complete.viewmodel.OrderDetailViewModel;
 import com.google.android.gms.common.ConnectionResult;
@@ -128,16 +129,19 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             try {
                 List<Address> address = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
 
-                orderDetailViewModel.setLiveLoctionName(address.get(0).getLocality());
+                AdressUserModel adressUserModel=new AdressUserModel(OrderDetailActivity.phone
+                ,latLng.latitude+"",latLng.longitude+"",address.get(0).getLocality());
+                orderDetailViewModel.setLiveLoctionName(adressUserModel);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getActivity(), "succusses add your loction sir !", Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     }
-                }, 3000);
+                }, 3500);
+
             } catch (IOException e) {
-                e.printStackTrace();
+                Toast.makeText(getActivity(), e.getMessage()+"", Toast.LENGTH_SHORT).show();
             }
         }
     }

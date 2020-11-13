@@ -3,14 +3,16 @@ package com.example.sihaluh.ui.order_complete.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class OrderDetailViewModel extends ViewModel {
-    private final MutableLiveData<String> liveLoctionName = new MutableLiveData<>();
+import com.example.sihaluh.data.model.AdressUserModel;
 
-    public MutableLiveData<String> getLiveLoctionName() {
+public class OrderDetailViewModel extends ViewModel {
+    private final MutableLiveData<AdressUserModel> liveLoctionName = new MutableLiveData<>();
+
+    public MutableLiveData<AdressUserModel> getLiveLoctionName() {
         return liveLoctionName;
     }
 
-    public void setLiveLoctionName(String name) {
-        liveLoctionName.setValue(name);
+    public void setLiveLoctionName(AdressUserModel adressUserModel) {
+        liveLoctionName.setValue(adressUserModel);
     }
 }
