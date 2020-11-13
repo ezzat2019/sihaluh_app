@@ -57,6 +57,7 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
     private final DatabaseReference reference_adress = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_ADRESS_USER);
     public static String phone;
     private AdressUserModel adressUserModel;
+    private Double total;
 
     public void showCard(Boolean b) {
         if (b) {
@@ -77,10 +78,19 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-        mapFragment = new MapsFragment();
-        init();
 
-        actions();
+        if (getIntent().hasExtra(AllFinal.INTENT_TOTAL)) {
+            total = getIntent().getDoubleExtra(AllFinal.INTENT_TOTAL, 0.0);
+            mapFragment = new MapsFragment();
+            init();
+
+            actions();
+
+        } else {
+            Toast.makeText(this, "error try again later", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
+
     }
 
 
@@ -92,29 +102,30 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
                 if (checkEditText()) {
                     ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                     if (manager.getActiveNetworkInfo() != null) {
-                        if (adressUserModel!=null)
-                        {
+                        if (adressUserModel != null) {
+                            adressUserModel.setName(ed_name_oreder_adress.getText().toString());
                             reference_adress.child(phone)
                                     .setValue(adressUserModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Intent intent=new Intent(getApplicationContext(), EndOrderActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), EndOrderActivity.class);
+
+                                    intent.putExtra(AllFinal.INTENT_ADRESS, adressUserModel);
+                                    intent.putExtra(AllFinal.INTENT_TOTAL, total);
                                     startActivity(intent);
+                                    finish();
 
                                 }
                             })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(OrderDetailActivity.this, e.getMessage()+"", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(OrderDetailActivity.this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(OrderDetailActivity.this, "error try get your loction again!", Toast.LENGTH_SHORT).show();
                         }
-
 
 
                     } else {
@@ -221,9 +232,8 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
                 , new Observer<AdressUserModel>() {
                     @Override
                     public void onChanged(AdressUserModel s) {
-                        if (s != null && !s.getLoction_name().isEmpty())
-                        {
-                            adressUserModel=s;
+                        if (s != null && !s.getLoction_name().isEmpty()) {
+                            adressUserModel = s;
                             ed_loction_oreder_adress.setText(s.getLoction_name());
 
                         }

@@ -27,6 +27,7 @@ import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.cart.adapter.CartAdapter;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
 import com.example.sihaluh.ui.order_complete.OrderDetailActivity;
+import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                intent.putExtra(AllFinal.INTENT_TOTAL,totlal_price);
                 startActivity(intent);
 
             }
