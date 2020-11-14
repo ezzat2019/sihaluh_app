@@ -1,6 +1,7 @@
 package com.example.sihaluh.ui.end_oreder;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -75,9 +76,16 @@ public class EndOrderActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radio_cash) {
-                    Toast.makeText(EndOrderActivity.this, "cash", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Toast.makeText(EndOrderActivity.this, "payment", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EndOrderActivity.this, "coming soon ", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            group.check(R.id.radio_cash);
+                        }
+                    }, 1000);
+
                 }
             }
         });
