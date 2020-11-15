@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.AdressUserModel;
+import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.data.model.RegisterModel;
 import com.example.sihaluh.ui.end_oreder.EndOrderActivity;
 import com.example.sihaluh.ui.order_complete.fragment.MapsFragment;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -56,6 +58,7 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
     private final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
     private final DatabaseReference reference_adress = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_ADRESS_USER);
     public static String phone;
+    private ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
     private AdressUserModel adressUserModel;
     private Double total;
 
@@ -81,6 +84,7 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
 
         if (getIntent().hasExtra(AllFinal.INTENT_TOTAL)) {
             total = getIntent().getDoubleExtra(AllFinal.INTENT_TOTAL, 0.0);
+            productModelArrayList=getIntent().getParcelableArrayListExtra(AllFinal.ALL_ITEM_USER_BUY);
             mapFragment = new MapsFragment();
             init();
 
@@ -112,6 +116,7 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
 
                                     intent.putExtra(AllFinal.INTENT_ADRESS, adressUserModel);
                                     intent.putExtra(AllFinal.INTENT_TOTAL, total);
+                                    intent.putExtra(AllFinal.ALL_ITEM_USER_BUY,productModelArrayList);
                                     startActivity(intent);
                                     finish();
 
@@ -220,10 +225,13 @@ public class OrderDetailActivity extends AppCompatActivity implements EasyPermis
         img_order_detail_back = findViewById(R.id.img_order_detail_back);
         viewModelObserving();
 
+
         card_map = findViewById(R.id.card_map);
 
         card_map.setVisibility(View.GONE);
     }
+
+
 
     private void viewModelObserving() {
         viewModel = new ViewModelProvider(this).get(OrderDetailViewModel.class);

@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/navigation_post_job"
-        android:name="com.example.sihaluh.ui.home.fagement.job_post.JobPostFragment"
+        android:name="com.example.sihaluh.ui.home.fagement.history.HistoryFragment"
         android:label="@string/title_post_job"
-        tools:layout="@layout/fragment_job_post" />
+        tools:layout="@layout/fragment_history" />
 </navigation>

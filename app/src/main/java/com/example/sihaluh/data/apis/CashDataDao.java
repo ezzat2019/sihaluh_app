@@ -2,6 +2,7 @@ package com.example.sihaluh.data.apis;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -33,6 +34,9 @@ public interface CashDataDao {
 
     @Query("select * from cartitems where user_id=:id")
     LiveData<CartItemModel> getCartItem(String id);
+    @Delete
+    void deleteProducttoCart(CartItemModel cartItemModel);
+
 
 
 }

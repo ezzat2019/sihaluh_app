@@ -1,4 +1,4 @@
-package com.example.sihaluh.ui.home.fagement.job_post;
+package com.example.sihaluh.ui.home.fagement.history;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import com.example.sihaluh.R;
 import com.example.sihaluh.ui.home.HomeActivity;
 
 
-public class JobPostFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
 
-    public JobPostFragment() {
+    public HistoryFragment() {
         // Required empty public constructor
     }
 
@@ -29,7 +29,7 @@ public class JobPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_job_post, container, false);
+        return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
     @Override

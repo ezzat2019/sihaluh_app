@@ -37,6 +37,18 @@ public class MyCartRepo {
                 .observeOn(Schedulers.io()).subscribe();
     }
 
+    public void deleteProductToCar(CartItemModel cartItemModel) {
+        Observable.fromCompletable(new Completable() {
+            @Override
+            protected void subscribeActual(@NonNull CompletableObserver observer) {
+                cashDataDao.deleteProducttoCart(cartItemModel);
+                observer.onComplete();
+            }
+        })
+                .doOnError(e -> Log.d("MyCartRepo", "deleteProductToCar: " + e.getMessage()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io()).subscribe();
+    }
     public LiveData<CartItemModel> getMyCartItems(String user_id) {
         return cashDataDao.getCartItem(user_id);
     }

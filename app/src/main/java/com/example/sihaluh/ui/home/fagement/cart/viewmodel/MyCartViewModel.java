@@ -20,6 +20,9 @@ public class MyCartViewModel extends ViewModel {
         myCartRepo.addProductToCar(cartItemModel);
     }
 
+    public void deleteProductToCar(CartItemModel cartItemModel) {
+        myCartRepo.deleteProductToCar(cartItemModel);
+    }
     public LiveData<CartItemModel> getMyCartProducts(String user_id) {
         return myCartRepo.getMyCartItems(user_id);
     }

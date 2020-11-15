@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,13 @@ import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
 import com.example.sihaluh.ui.order_complete.OrderDetailActivity;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -52,6 +60,7 @@ public class CartFragment extends Fragment {
     private Double totlal_price = 0.0;
     private int num;
     private boolean iam_remove = false;
+    private DatabaseReference ref_start= FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -74,9 +83,24 @@ public class CartFragment extends Fragment {
         btn_complete_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), OrderDetailActivity.class);
-                intent.putExtra(AllFinal.INTENT_TOTAL,totlal_price);
-                startActivity(intent);
+                ref_start.child(prefViewModel.getPhone())
+                        .setValue(productModelArrayList).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                        intent.putExtra(AllFinal.INTENT_TOTAL,totlal_price);
+                        intent.putExtra(AllFinal.ALL_ITEM_USER_BUY,productModelArrayList);
+                        startActivity(intent);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), e.getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
 
             }
         });
@@ -156,8 +180,26 @@ public class CartFragment extends Fragment {
 
         buildRecycle();
         observViewModel();
+        deteFirstOrderIsExcit();
 
 
+    }
+
+    private void deteFirstOrderIsExcit() {
+        ref_start.child(prefViewModel.getPhone()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists())
+                {
+                    ref_start.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void buildRecycle() {
