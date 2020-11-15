@@ -1,5 +1,7 @@
 package com.example.sihaluh.ui.home.fagement.history;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,26 +97,37 @@ public class HistoryFragment extends Fragment {
 
     private void getDataFromColletion() {
 
-        ref_history.child(prefViewModel.getPhone()).orderByValue()
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            EndOrderModel endOrderModel = dataSnapshot.getValue(EndOrderModel.class);
-                            endOrderModel.setOwner_id(dataSnapshot.getKey());
-                            endOrderModelList.add(endOrderModel);
+        ConnectivityManager manager= (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager.getActiveNetworkInfo()==null)
+        {
+            checkRec();
+        }
+        else
+        {
+            ref_history.child(prefViewModel.getPhone()).orderByValue()
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                EndOrderModel endOrderModel = dataSnapshot.getValue(EndOrderModel.class);
+                                endOrderModel.setOwner_id(dataSnapshot.getKey());
+                                endOrderModelList.add(endOrderModel);
+                            }
+                            checkRec();
+                            Collections.reverse(endOrderModelList);
+                            historyAdapter.addHistoryItems(endOrderModelList, snapshot.getKey());
                         }
-                        checkRec();
-                        Collections.reverse(endOrderModelList);
-                        historyAdapter.addHistoryItems(endOrderModelList, snapshot.getKey());
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), error.getMessage() + "", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), error.getMessage() + "", Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+                        }
+                    });
+
+        }
+
+
 
     }
 
