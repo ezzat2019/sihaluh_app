@@ -52,12 +52,13 @@ public class EndOrderActivity extends AppCompatActivity {
     private ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference ref_end_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ENDORDER);
+    private DatabaseReference ref_collection = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ORDER_COLLECTION);
     private DatabaseReference ref_start_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
     private PrefViewModel prefViewModel;
     private String typr_payment = AllFinal.PAYMENT_CASH;
     private MyCartViewModel myCartViewModel;
     private CartItemModel cartItemModel;
-
+    private int i = 0;
 
 
     @Override
@@ -152,12 +153,14 @@ public class EndOrderActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for ( DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
                     ProductModel productModel = dataSnapshot.getValue(ProductModel.class);
                     String id_buyer = productModel.getOwner();
                     String id_end[] = id_buyer.split("@");
                     id_buyer = id_end[0];
+
                     EndOrderModel endOrderModel = new EndOrderModel(productModel.getId()
                             , adressUserModel, typr_payment, total_price.toString(), new Date(), productModel.getOwner());
                     ref_end_order.child(prefViewModel.getPhone())
@@ -166,8 +169,6 @@ public class EndOrderActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d("yyyyyyyyy", "onSuccess: ");
-
-
 
 
                         }
@@ -181,20 +182,32 @@ public class EndOrderActivity extends AppCompatActivity {
 
 
                 }
-                myCartViewModel.deleteProductToCar(cartItemModel);
-                Intent intent = new Intent(getApplicationContext(), LaunchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                EndOrderModel orderModel = new EndOrderModel(prefViewModel.getPhone()
+                        , adressUserModel, typr_payment, total_price.toString()
+                        , new Date(), null);
+                ref_collection.child(prefViewModel.getPhone())
+                        .push().setValue(orderModel);
 
+                long max = snapshot.getChildrenCount();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("yyyyyyyyy", "done: ");
+                        myCartViewModel.deleteProductToCar(cartItemModel);
+                        Intent intent = new Intent(getApplicationContext(), LaunchActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                    }
+                }, (max + 1) * 500);
 
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(EndOrderActivity.this, error.getMessage()+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EndOrderActivity.this, error.getMessage() + "", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
 
             }

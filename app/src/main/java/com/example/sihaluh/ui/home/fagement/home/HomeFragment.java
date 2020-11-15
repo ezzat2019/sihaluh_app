@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -46,6 +50,7 @@ public class HomeFragment extends Fragment {
     // ui
     private RecyclerView rec_cat, rec_product;
     private TextView txt_home_result, txt_home_more;
+    private ImageView img_filter,img_location;
 
 
     // var
@@ -55,7 +60,6 @@ public class HomeFragment extends Fragment {
     private List<ProductModel> productModelList = new ArrayList<>();
     private HomeViewModel homeViewModel;
     private CategoryAdapter categoryAdapter;
-
     private ProductRecycleAdapter productRecycleAdapter;
 
 
@@ -189,6 +193,33 @@ public class HomeFragment extends Fragment {
 
 
     private void actions() {
+        img_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.reverse(productModelList);
+                productRecycleAdapter.addProducts(productModelList);
+                Toast.makeText(getContext(), "product reversed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        img_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("mailto:" + "zizoezzatan3@gmail.com")
+                        .buildUpon()
+                        .appendQueryParameter("subject", "android developer")
+
+                        .build();
+
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                startActivity(Intent.createChooser(emailIntent, "talk with developer"));
+
+
+
+            }
+        });
+
         categoryAdapter.setOnItemCatListener(new CategoryAdapter.OnItemCatListener() {
             @Override
             public void onClick(int pos) {
@@ -226,6 +257,11 @@ public class HomeFragment extends Fragment {
 
 
     private void init(View view) {
+
+        img_filter=view.findViewById(R.id.img_filter);
+        img_location=view.findViewById(R.id.img_location);
+
+
         rec_cat = view.findViewById(R.id.rec_category);
         rec_cat.setNestedScrollingEnabled(false);
         rec_cat.setHasFixedSize(true);

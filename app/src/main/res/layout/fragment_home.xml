@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
+            android:foreground="?attr/selectableItemBackground"
             android:src="@drawable/ic_baseline_filter_list_24"
             app:layout_constraintBottom_toBottomOf="@+id/search_home"
             app:layout_constraintStart_toEndOf="@+id/search_home"
@@ -38,6 +39,7 @@
         <ImageView
             android:id="@+id/img_location"
             android:layout_width="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
             android:src="@drawable/ic_baseline_not_listed_location_24"
