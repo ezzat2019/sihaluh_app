@@ -3,6 +3,7 @@ package com.example.sihaluh.ui.home.fagement.history;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,22 +89,25 @@ public class HistoryFragment extends Fragment {
     private void init(View v) {
         constraintLayout = v.findViewById(R.id.cons_his);
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
-
+        checkRec();
         buildRec(v);
 
-        getDataFromColletion();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getDataFromColletion();
+            }
+        }, 100);
+
 
     }
 
     private void getDataFromColletion() {
 
-        ConnectivityManager manager= (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (manager.getActiveNetworkInfo()==null)
-        {
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager.getActiveNetworkInfo() == null) {
             checkRec();
-        }
-        else
-        {
+        } else {
             ref_history.child(prefViewModel.getPhone()).orderByValue()
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -126,7 +130,6 @@ public class HistoryFragment extends Fragment {
                     });
 
         }
-
 
 
     }

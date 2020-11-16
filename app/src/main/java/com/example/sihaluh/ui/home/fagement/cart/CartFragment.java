@@ -73,8 +73,24 @@ public class CartFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init(view);
-        actions();
+        nestedScrollView = view.findViewById(R.id.nestes_scroll_empty_cart);
+        view_include = view.findViewById(R.id.include_cart);
+        if (productModelArrayList.isEmpty()) {
+
+
+            nestedScrollView.setVisibility(View.VISIBLE);
+            view_include.setVisibility(View.GONE);
+
+
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                init(view);
+                actions();
+            }
+        }, 100);
+
 
     }
 
@@ -164,8 +180,7 @@ public class CartFragment extends Fragment {
     }
 
     private void init(View v) {
-        nestedScrollView = v.findViewById(R.id.nestes_scroll_empty_cart);
-        view_include = v.findViewById(R.id.include_cart);
+
         btn_cart_empty_continue = v.findViewById(R.id.btn_cart_empty_continue);
         txt_total_price = v.findViewById(R.id.txt_total_price);
         btn_complete_order = v.findViewById(R.id.btn_complete_order);
@@ -178,10 +193,11 @@ public class CartFragment extends Fragment {
         rec_cart.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
+
+
         buildRecycle();
         observViewModel();
         deteFirstOrderIsExcit();
-
 
     }
 

@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,9 +102,15 @@ public class HomeFragment extends Fragment {
                         , new Observer<List<ProductModel>>() {
                             @Override
                             public void onChanged(List<ProductModel> productModelList2) {
-                                productRecycleAdapter.addProducts(productModelList2);
-                                homeViewModel.setResult_num(productModelList2.size());
-                                productModelList = productModelList2;
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        productRecycleAdapter.addProducts(productModelList2);
+                                        homeViewModel.setResult_num(productModelList2.size());
+                                        productModelList = productModelList2;
+                                    }
+                                }, 100);
+
                             }
                         });
 
@@ -164,10 +171,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -294,7 +298,13 @@ public class HomeFragment extends Fragment {
 
         txt_home_more = view.findViewById(R.id.txt_home_more);
         if (checkInternetConncertion()) {
-            getProducts();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getProducts();
+                }
+            }, 100);
+
         }
 
     }
