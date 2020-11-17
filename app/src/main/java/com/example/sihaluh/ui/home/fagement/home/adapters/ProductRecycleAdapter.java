@@ -1,5 +1,6 @@
 package com.example.sihaluh.ui.home.fagement.home.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,16 @@ import java.util.List;
 public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAdapter.ProductVH> {
     public onProductClickListener onProductClickListener;
     private List<ProductModel> productModelList = new ArrayList<>();
+    private Context context;
 
     public void addProducts(List<ProductModel> productModelList) {
         this.productModelList = productModelList;
         notifyDataSetChanged();
 
+    }
+
+    public ProductRecycleAdapter(Context context) {
+        this.context = context;
     }
 
     public void setOnItemProductclick(onProductClickListener onProductClickListener) {
@@ -42,7 +48,7 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
 
     @Override
     public void onBindViewHolder(@NonNull ProductVH holder, int position) {
-        Log.d("ccccccccc", "fillData: " + productModelList.size());
+      //  Log.d("ccccccccc", "fillData: " + productModelList.size());
         holder.fillData(productModelList.get(position));
     }
 
@@ -88,8 +94,16 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
             } else {
                 txt_sale.setText(num + " %");
             }
-            Glide.with(v.getContext())
-                    .load(productModel.getImg()).placeholder(R.drawable.ic_launcher_foreground).into(img_product);
+            try {
+                Glide.with(context)
+                        .load(productModel.getImg()).into(img_product);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                Log.e("eeeeee", "fillData: "+e.getMessage() );
+            }
+
 
         }
 
@@ -98,7 +112,7 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
             txt_price = v.findViewById(R.id.txt_price_item);
             txt_sale = v.findViewById(R.id.txt_sale_product);
 
-            img_cart = v.findViewById(R.id.img_cart);
+
             img_product = v.findViewById(R.id.img_product_main);
         }
     }

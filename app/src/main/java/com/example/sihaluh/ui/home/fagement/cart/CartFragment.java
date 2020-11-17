@@ -1,6 +1,8 @@
 package com.example.sihaluh.ui.home.fagement.cart;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -60,7 +62,7 @@ public class CartFragment extends Fragment {
     private Double totlal_price = 0.0;
     private int num;
     private boolean iam_remove = false;
-    private DatabaseReference ref_start= FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
+    private DatabaseReference ref_start = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -99,23 +101,33 @@ public class CartFragment extends Fragment {
         btn_complete_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ref_start.child(prefViewModel.getPhone())
-                        .setValue(productModelArrayList).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Intent intent = new Intent(getContext(), OrderDetailActivity.class);
-                        intent.putExtra(AllFinal.INTENT_TOTAL,totlal_price);
-                        intent.putExtra(AllFinal.ALL_ITEM_USER_BUY,productModelArrayList);
-                        startActivity(intent);
+                ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), e.getMessage()+"", Toast.LENGTH_SHORT).show();
+                if (connectivityManager.getActiveNetworkInfo() == null) {
+                    Toast.makeText(getContext(), "check internet connetion", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else
+                {
+                    ref_start.child(prefViewModel.getPhone())
+                            .setValue(productModelArrayList).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                            intent.putExtra(AllFinal.INTENT_TOTAL, totlal_price);
+                            intent.putExtra(AllFinal.ALL_ITEM_USER_BUY, productModelArrayList);
+                            startActivity(intent);
 
-                    }
-                });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), e.getMessage() + "", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+
 
 
             }
@@ -193,11 +205,11 @@ public class CartFragment extends Fragment {
         rec_cart.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-
+        deteFirstOrderIsExcit();
 
         buildRecycle();
         observViewModel();
-        deteFirstOrderIsExcit();
+
 
     }
 
@@ -205,8 +217,7 @@ public class CartFragment extends Fragment {
         ref_start.child(prefViewModel.getPhone()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists())
-                {
+                if (snapshot.exists()) {
                     ref_start.removeValue();
                 }
             }
@@ -229,7 +240,7 @@ public class CartFragment extends Fragment {
             nestedScrollView.setVisibility(View.VISIBLE);
             view_include.setVisibility(View.GONE);
             myCartViewModel.getMyCartProducts(prefViewModel.getPhone())
-                    .observe(getViewLifecycleOwner(), new Observer<CartItemModel>() {
+                    .observe(this, new Observer<CartItemModel>() {
                         @Override
                         public void onChanged(CartItemModel cartItemModel) {
                             if (cartItemModel != null) {

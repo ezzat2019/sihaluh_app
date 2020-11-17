@@ -16,7 +16,8 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        // Enabling multidex support.
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.5.1'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     testImplementation 'junit:junit:4.+'
+    implementation 'com.android.support:multidex:1.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -109,7 +111,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.libraries.places:places:2.4.0'
 
-    implementation 'androidx.work:work-runtime:2.3.4'
+
 
     implementation 'pub.devrel:easypermissions:3.0.0'
 

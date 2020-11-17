@@ -1,14 +1,28 @@
 package com.example.sihaluh.data.model;
 
-import java.util.Date;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.util.Date;
+@Entity(tableName = "history_item")
 public class EndOrderModel {
-    private String id;
-    private AdressUserModel adressUserModel;
-    private String payment_type;
-    private String total_price;
-    private Date date;
-    private String owner_id;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "owner_id")
+    String owner_id;
+    @ColumnInfo(name = "id")
+    String id;
+    @ColumnInfo(name = "adressUserModel")
+     AdressUserModel adressUserModel;
+    @ColumnInfo(name = "payment_type")
+     String payment_type;
+    @ColumnInfo(name = "total_price")
+     String total_price;
+    @ColumnInfo(name = "date")
+     Date date;
+
 
     public String getId() {
         return id;

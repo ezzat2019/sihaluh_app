@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment {
     // ui
     private RecyclerView rec_cat, rec_product;
     private TextView txt_home_result, txt_home_more;
-    private ImageView img_filter,img_location;
+    private ImageView img_filter, img_location;
 
 
     // var
@@ -67,7 +66,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
+        productRecycleAdapter = new ProductRecycleAdapter(getContext());
         categoriesModelList.add(new CategoriesModel("Cars", "https://images7.alphacoders.com/594/thumb-350-594890.jpg", "cars"));
         categoriesModelList.add(new CategoriesModel("Food",
                 "https://as2.ftcdn.net/jpg/01/81/12/43/500_F_181124352_Xq5FiYmW8ukX96kM1YLvN5zoUxFLFSlc.jpg", "food"));
@@ -102,14 +101,11 @@ public class HomeFragment extends Fragment {
                         , new Observer<List<ProductModel>>() {
                             @Override
                             public void onChanged(List<ProductModel> productModelList2) {
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        productRecycleAdapter.addProducts(productModelList2);
-                                        homeViewModel.setResult_num(productModelList2.size());
-                                        productModelList = productModelList2;
-                                    }
-                                }, 100);
+
+                                productRecycleAdapter.addProducts(productModelList2);
+                                homeViewModel.setResult_num(productModelList2.size());
+                                productModelList = productModelList2;
+
 
                             }
                         });
@@ -172,7 +168,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -190,7 +185,7 @@ public class HomeFragment extends Fragment {
 
         init(view);
 
-        actions();
+         actions();
 
 
     }
@@ -218,7 +213,6 @@ public class HomeFragment extends Fragment {
 
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
                 startActivity(Intent.createChooser(emailIntent, "talk with developer"));
-
 
 
             }
@@ -262,9 +256,11 @@ public class HomeFragment extends Fragment {
 
     private void init(View view) {
 
-        img_filter=view.findViewById(R.id.img_filter);
-        img_location=view.findViewById(R.id.img_location);
+        img_filter = view.findViewById(R.id.img_filter);
+        img_location = view.findViewById(R.id.img_location);
 
+        txt_home_result = view.findViewById(R.id.txt_home_result);
+        txt_home_more = view.findViewById(R.id.txt_home_more);
 
         rec_cat = view.findViewById(R.id.rec_category);
         rec_cat.setNestedScrollingEnabled(false);
@@ -283,27 +279,21 @@ public class HomeFragment extends Fragment {
         GridLayoutManager gridLayoutManager2;
         int orination = getResources().getConfiguration().orientation;
         if (orination == Configuration.ORIENTATION_LANDSCAPE) {
-            gridLayoutManager2 = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+            gridLayoutManager2 = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
         } else {
-            gridLayoutManager2 = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+            gridLayoutManager2 = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         }
 
         rec_product.setLayoutManager(gridLayoutManager2);
 
-        productRecycleAdapter = new ProductRecycleAdapter();
 
         rec_product.setAdapter(productRecycleAdapter);
 
-        txt_home_result = view.findViewById(R.id.txt_home_result);
 
-        txt_home_more = view.findViewById(R.id.txt_home_more);
         if (checkInternetConncertion()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    getProducts();
-                }
-            }, 100);
+
+            getProducts();
+
 
         }
 

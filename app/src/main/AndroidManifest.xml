@@ -19,6 +19,7 @@
         android:icon="@drawable/icon_main"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_main"
+
         android:supportsRtl="true"
         android:theme="@style/Theme.Sihaluh">
         <activity android:name=".ui.end_oreder.EndOrderActivity" android:theme="@style/Theme.Sihaluh_verison3"></activity>
@@ -66,6 +67,7 @@
         <activity
             android:name=".ui.launch.LaunchActivity"
             android:label="@string/app_name"
+
             android:theme="@style/Theme.Sihaluh_verison2" />
     </application>
 

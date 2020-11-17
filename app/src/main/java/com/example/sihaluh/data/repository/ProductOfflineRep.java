@@ -30,40 +30,10 @@ public class ProductOfflineRep {
     }
 
     public void setnewProduct(ProductModel productModel) {
-        Observer observer = new Observer() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
 
-            }
 
-            @Override
-            public void onNext(@NonNull Object o) {
 
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Log.d("HomeViewModel", "onerror " + e.getMessage());
-
-            }
-
-            @Override
-            public void onComplete() {
-                Log.d("HomeViewModel", "onComplete: ");
-            }
-        };
-
-        Observable.fromCompletable(new Completable() {
-            @Override
-            protected void subscribeActual(@NonNull CompletableObserver observer) {
                 cashDataDao.setProduct(productModel);
-                observer.onComplete();
-
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-
-                .subscribe(observer);
 
     }
 

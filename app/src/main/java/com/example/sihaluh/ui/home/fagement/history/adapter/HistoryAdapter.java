@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,10 +36,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     }
 
     public interface OnItemClick {
-        void onClick(int pos);
+
+        void onLongClick(int pos);
     }
 
-    public void addHistoryItems(List<EndOrderModel> endOrderModelList, String id) {
+    public void addHistoryItems(List<EndOrderModel> endOrderModelList) {
         this.endOrderModelList = endOrderModelList;
 
         notifyDataSetChanged();
@@ -72,7 +74,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClick.onClick(getAdapterPosition());
+                    Toast.makeText(v.getContext(), "press long click to detete this item", Toast.LENGTH_SHORT).show();
+                }
+            });
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onItemClick.onLongClick(getAdapterPosition());
+                    return false;
                 }
             });
         }

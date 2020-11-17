@@ -7,11 +7,12 @@ import androidx.room.TypeConverters;
 import com.example.sihaluh.data.apis.CashDataDao;
 import com.example.sihaluh.data.model.CartItemModel;
 import com.example.sihaluh.data.model.CategoryItemModel;
+import com.example.sihaluh.data.model.EndOrderModel;
 import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.utils.room_helper.Converter;
 
 
-@Database(entities = {ProductModel.class, CategoryItemModel.class, CartItemModel.class}, version = 9, exportSchema = false)
+@Database(entities = {ProductModel.class, CategoryItemModel.class, CartItemModel.class, EndOrderModel.class}, version = 16, exportSchema = false)
 @TypeConverters(Converter.class)
 public abstract class MainDataBase extends RoomDatabase {
 

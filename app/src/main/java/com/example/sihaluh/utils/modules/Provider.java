@@ -35,8 +35,9 @@ public class Provider {
     @Provides
 
     public MainDataBase getDB(Application application) {
-        return Room.databaseBuilder(application, MainDataBase.class, "products6")
+        return Room.databaseBuilder(application, MainDataBase.class, "product")
                 .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
                 .build();
     }
 

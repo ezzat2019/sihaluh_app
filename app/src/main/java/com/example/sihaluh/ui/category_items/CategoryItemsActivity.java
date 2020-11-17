@@ -59,6 +59,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setContentView(R.layout.activity_category_items);
 
+        productRecycleAdapter =new ProductRecycleAdapter(getApplicationContext());
         if (!getIntent().hasExtra(AllFinal.INTENT_CATEGORYNAME)) {
             Toast.makeText(getApplicationContext(), "no items found try again later!", Toast.LENGTH_SHORT).show();
             onBackPressed();
@@ -121,7 +122,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        rec_product = findViewById(R.id.rec_products);
+        rec_product = findViewById(R.id.rec_products2);
         rec_product.setHasFixedSize(true);
 
         GridLayoutManager gridLayoutManager;
@@ -134,7 +135,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         }
         rec_product.setLayoutManager(gridLayoutManager);
 
-        productRecycleAdapter = new ProductRecycleAdapter();
+
         rec_product.setAdapter(productRecycleAdapter);
 
         txt_cat_product_name = findViewById(R.id.txt_cat_product_name);
