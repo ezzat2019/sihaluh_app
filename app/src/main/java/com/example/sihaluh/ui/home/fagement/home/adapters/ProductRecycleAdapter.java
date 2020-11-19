@@ -24,8 +24,11 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
     private Context context;
 
     public void addProducts(List<ProductModel> productModelList) {
-        this.productModelList = productModelList;
-        notifyDataSetChanged();
+
+            this.productModelList = productModelList;
+            notifyDataSetChanged();
+
+
 
     }
 

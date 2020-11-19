@@ -7,6 +7,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+
+    signingConfigs {
+        ezat {
+            storeFile file('C:\\Users\\Dell\\Desktop\\سهاله\\key_sahlah.jks')
+            storePassword 'Aa123456789'
+            keyAlias 'key0'
+            keyPassword 'Aa123456789'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "30.0.2"
 
@@ -23,7 +32,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.ezat
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
