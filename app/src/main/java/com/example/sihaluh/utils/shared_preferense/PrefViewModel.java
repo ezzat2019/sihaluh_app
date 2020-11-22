@@ -20,4 +20,15 @@ public class PrefViewModel extends ViewModel {
     public String getPhone() {
         return mySharedPreference.getMainPhone();
     }
+
+
+    public void putState(Boolean state) {
+        mySharedPreference.setState_user(state);
+    }
+
+    public Boolean getState() {
+        return mySharedPreference.getState_user();
+    }
+
+
 }

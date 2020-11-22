@@ -19,6 +19,12 @@ public final class AllFinal {
     public static final String PAYMENT_CASH="cash";
     public static final String PAYMENT_BY_CARD="card";
     public static final String ALL_ITEM_USER_BUY="dasda";
+    public static final String FIREBASE_TOKKENS="tokkens";
+    public static final String FIREBASE_MESSAGES="messages";
+    public static final String REF_SELLER_ID="seller";
+    public static final String PREF_STATE_USER="state";
+    public static final String FIREBASE_STATE="states";
+
 
 
 }

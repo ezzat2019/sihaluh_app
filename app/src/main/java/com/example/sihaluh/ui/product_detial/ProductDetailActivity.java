@@ -22,10 +22,12 @@ import com.example.sihaluh.data.model.CartItemModel;
 import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
+import com.example.sihaluh.ui.message_chat.MessageActivity;
 import com.example.sihaluh.ui.product_detial.fragment.FullImageFragment;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 import java.util.ArrayList;
@@ -154,8 +156,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         img_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProductDetailActivity.this, "img_chat", Toast.LENGTH_SHORT).show();
-            }
+                if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(productModel.getOwner()))
+                {
+                    Toast.makeText(ProductDetailActivity.this, "not avaible!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    startActivity(new Intent(getApplicationContext(), MessageActivity.class).putExtra(AllFinal.REF_SELLER_ID,productModel));
+
+                }
+              }
         });
 
         btn_detail_add_cart.setOnClickListener(new View.OnClickListener() {

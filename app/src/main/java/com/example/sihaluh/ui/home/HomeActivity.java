@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -23,12 +24,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CartItemModel;
+import com.example.sihaluh.data.model.TokkenModel;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
 import com.example.sihaluh.ui.launch.LaunchActivity;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -46,6 +51,9 @@ public class HomeActivity extends AppCompatActivity {
     private NavController navController;
     private MyCartViewModel myCartViewModel;
 
+    // firebase
+    private final DatabaseReference ref_tokkens = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_TOKKENS);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
 
         init();
 
+        updateTokken();
 
         if (getIntent().hasExtra(AllFinal.INTENT_GOTO_CART)) {
             gotocart = getIntent().getBooleanExtra(AllFinal.INTENT_GOTO_CART, false);
@@ -87,6 +96,19 @@ public class HomeActivity extends AppCompatActivity {
 
 
         actions();
+    }
+
+    private void updateTokken() {
+        TokkenModel tokkenModel=new TokkenModel(FirebaseInstanceId.getInstance().getToken());
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null)
+        {
+            ref_tokkens.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(tokkenModel);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "error when update tokken", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void observeMyCart() {
