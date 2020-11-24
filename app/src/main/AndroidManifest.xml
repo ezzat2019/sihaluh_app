@@ -38,7 +38,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <service android:name=".ui.home.fagement.chat.services.RecvivingMessageSevicies">
+        <service android:name=".ui.message_chat.services.RecvivingMessageSevicies">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
