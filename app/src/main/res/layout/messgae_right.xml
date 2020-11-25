@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
     android:background="@color/light_gray2">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_message_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_100sdp"
@@ -15,6 +17,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:outlineAmbientShadowColor="@color/black"
         android:outlineSpotShadowColor="@color/black"
+        android:visibility="visible"
         app:cardBackgroundColor="@color/move"
         app:cardCornerRadius="@dimen/_25sdp"
         app:cardElevation="@dimen/_7sdp"
@@ -22,8 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-       >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -39,6 +41,7 @@
                 android:maxWidth="@dimen/_200sdp"
                 android:padding="@dimen/_8sdp"
                 android:text="message"
+
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -48,6 +51,52 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txt_date_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:fontFamily="serif"
+        android:text="MONTH d , yyy hh:mm a"
+        android:textSize="@dimen/_13sdp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/card_message_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_time_age_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="serif"
+        android:text="2 week age"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11sdp"
+
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/card_message_right"
+        app:layout_constraintTop_toBottomOf="@+id/card_message_right"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/img_right_messgae"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_margin="@dimen/_16sdp"
+        android:maxWidth="@dimen/_200sdp"
+        android:maxHeight="@dimen/_150sdp"
+        android:scaleType="fitXY"
+        android:transitionName="message_large"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

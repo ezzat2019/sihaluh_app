@@ -31,7 +31,7 @@
 
     <style name="Theme.Sihaluh_verison3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-
+        <item name="android:windowContentTransitions">true</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>

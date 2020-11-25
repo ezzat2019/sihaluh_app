@@ -25,6 +25,11 @@ public final class AllFinal {
     public static final String PREF_STATE_USER="state";
     public static final String FIREBASE_STATE="states";
     public static final String FIREBASE_TYPING = "typing";
+    public static final String MEESAGE_TYPE_TEXT="text";
+    public static final String MEESAGE_TYPE_IMG="img";
+    public static final String MEESAGE_TYPE_PDF="pdf";
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.sihaluh.ui.launch;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,10 +11,16 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.sihaluh.R;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.launch.adapter.SectionsPagerAdapter;
+import com.example.sihaluh.utils.helper.TimeHelper;
 import com.example.sihaluh.utils.receiver.MyReceiver;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -35,7 +42,11 @@ public class LaunchActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
 
+
+
     }
+
+
 
 
     @Override

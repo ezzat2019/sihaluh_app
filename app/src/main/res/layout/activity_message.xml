@@ -31,7 +31,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_40sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:background="@color/white"
                 android:drawableLeft="@drawable/ic_baseline_tag_faces_24"
@@ -54,13 +54,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
-
                 android:clickable="true"
                 android:src="@drawable/ic_baseline_subdirectory_arrow_right_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.457" />
+
+            <ImageView
+                android:id="@+id/img_add_pdf_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/add_image_pdf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/floating_message"
+                app:layout_constraintStart_toEndOf="@+id/ed_message_content"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -146,6 +156,54 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_pdf_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:clickable="true"
+        android:outlineSpotShadowColor="@color/black"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_20sdp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_16sdp">
+
+            <ImageView
+                android:id="@+id/img_add_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/add_img"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_add_pdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_22sdp"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/add_pdf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/img_add_img"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
