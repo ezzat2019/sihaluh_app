@@ -81,7 +81,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVH>
         }
 
         private void init(View v) {
-            img_cat = v.findViewById(R.id.img_cat_item);
+            img_cat = v.findViewById(R.id.img_user_frag);
             txt_name = v.findViewById(R.id.txt_cat_item);
 
         }

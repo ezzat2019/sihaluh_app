@@ -23,7 +23,7 @@
         android:padding="@dimen/_4sdp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_cat_item"
+            android:id="@+id/img_user_frag"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:src="@drawable/stocks"
@@ -45,7 +45,7 @@
             android:textSize="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="@+id/v1_cat"
             app:layout_constraintEnd_toEndOf="@+id/v1_cat"
-            app:layout_constraintStart_toEndOf="@+id/img_cat_item"
+            app:layout_constraintStart_toEndOf="@+id/img_user_frag"
             app:layout_constraintTop_toTopOf="@+id/v1_cat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

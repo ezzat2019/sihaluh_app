@@ -1,6 +1,7 @@
 package com.example.sihaluh.ui.product_detial;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
@@ -20,15 +22,20 @@ import com.example.sihaluh.BuildConfig;
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CartItemModel;
 import com.example.sihaluh.data.model.ProductModel;
+import com.example.sihaluh.data.model.RegisterModel;
+import com.example.sihaluh.data.model.UserChatAddModel;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
 import com.example.sihaluh.ui.message_chat.MessageActivity;
 import com.example.sihaluh.ui.product_detial.fragment.FullImageFragment;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -36,14 +43,18 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class ProductDetailActivity extends AppCompatActivity {
+
+    // firebase
+    private final DatabaseReference ref_users = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_USER_CHAT);
+    private final DatabaseReference ref_login = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
+
     // ui
     private ImageView img_detail_item;
-    private ImageView  img_detial_back, img_detail_cart, img_detail_share;
+    private final ArrayList<RegisterModel> registerModelArrayList = new ArrayList<>();
     private TextView txt_detail_name, txt_detial_price;
     private ImageButton img_chat;
     private Button btn_detail_add_cart;
     private CardView card_non_empty;
-
 
 
     // var
@@ -55,6 +66,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ArrayList<ProductModel> productModelArrayList;
     private CartItemModel cartItemModeltest;
     private FullImageFragment fullImageFragment;
+    private ImageView img_detial_back, img_detail_cart, img_detail_share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +142,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         img_detail_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!productModel.getImg().isEmpty())
-                {
-                    fullImageFragment=FullImageFragment.newInstance(productModel.getImg());
-                    fullImageFragment.show(getSupportFragmentManager(),"im1");
+                if (!productModel.getImg().isEmpty()) {
+                    fullImageFragment = FullImageFragment.newInstance(productModel.getImg());
+                    fullImageFragment.show(getSupportFragmentManager(), "im1");
                 }
 
             }
@@ -156,16 +167,26 @@ public class ProductDetailActivity extends AppCompatActivity {
         img_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(productModel.getOwner()))
-                {
-                    Toast.makeText(ProductDetailActivity.this, "not avaible!", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    startActivity(new Intent(getApplicationContext(), MessageActivity.class).putExtra(AllFinal.REF_SELLER_ID,productModel));
 
+                ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                if (connectivityManager.getActiveNetworkInfo()!=null)
+                {
+                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(productModel.getOwner())) {
+                        Toast.makeText(ProductDetailActivity.this, "not avaible!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), MessageActivity.class).putExtra(AllFinal.REF_SELLER_ID, productModel));
+
+                        addNewUser();
+
+
+
+                    }
                 }
-              }
+                else {
+                    Toast.makeText(ProductDetailActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
         });
 
         btn_detail_add_cart.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +197,91 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void addNewUser() {
+        ref_login.child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    UserChatAddModel chatAddModel = new UserChatAddModel();
+
+                    RegisterModel registerModel = snapshot.getValue(RegisterModel.class);
+                    chatAddModel.setCurrent_user_id(registerModel.getId());
+                    chatAddModel.setCurrent_user_img(registerModel.getImg_url());
+                    chatAddModel.setCurrent_user_phone(registerModel.getPhone());
+                    chatAddModel.setName(registerModel.getName());
+
+
+                    ref_login.
+                            child(productModel.getPhone())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists())
+                                    {
+                                        RegisterModel registerModel2=snapshot.getValue(RegisterModel.class);
+
+                                        ref_users.child(registerModel.getId())
+                                                .child("users_added").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                if (snapshot.exists()) {
+                                                    if (snapshot.hasChildren()) {
+                                                        for (DataSnapshot dataSnapshot:snapshot.getChildren())
+                                                        {
+                                                            RegisterModel r=dataSnapshot.getValue(RegisterModel.class);
+                                                            registerModelArrayList.add(r);
+                                                        }
+                                                        registerModelArrayList.add(registerModel2);
+                                                        chatAddModel.setUsers_added(registerModelArrayList);
+                                                        ref_users.child(registerModel.getId())
+                                                                .setValue(chatAddModel);
+
+                                                    }
+                                                } else {
+
+
+
+                                                    registerModelArrayList.add(registerModel2);
+                                                    chatAddModel.setUsers_added(registerModelArrayList);
+                                                    ref_users.child(registerModel.getId())
+                                                            .setValue(chatAddModel);
+
+
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.sihaluh.ui.launch.fragment.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.RegisterModel;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
+import com.example.sihaluh.utils.test.TestActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +46,7 @@ public class RegisterFragment extends Fragment {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final FirebaseDatabase base = FirebaseDatabase.getInstance();
     private final DatabaseReference ref_database_register = base.getReference().child(AllFinal.FIREBASE_DATABASE_LOGIN);
-    private String name, email, password, phone;
+    private String name, email, password, phone, img_url;
     private PrefViewModel prefViewModel;
 
 
@@ -85,8 +87,9 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
 
+                startActivity(new Intent(getContext(), TestActivity.class));
 
-                register();
+//                register();
 
 
             }
@@ -100,13 +103,13 @@ public class RegisterFragment extends Fragment {
         email = ed_register_email.getText().toString().trim();
         phone = ed_register_phone.getText().toString().trim();
         password = ed_register_passwored.getText().toString().trim();
-
+        img_url = "";
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     RegisterModel registerModel = new RegisterModel(task.getResult().getUser().getUid()
-                            , name, email, phone);
+                            , name, email, phone, img_url);
 
                     ref_database_register.child(registerModel.getPhone())
                             .setValue(registerModel).addOnCompleteListener(new OnCompleteListener<Void>() {

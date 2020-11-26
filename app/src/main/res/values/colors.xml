@@ -15,4 +15,5 @@
     <color name="light_gray">#E4BBBB</color>
     <color name="light_gray2">#EFDEDE</color>
     <color name="move">#C51162</color>
+    <color name="gray_notification">#F7F7F7</color>
 </resources>

@@ -143,6 +143,7 @@ public class HomeFragment extends Fragment {
                         productModel.setPrice(snapshot1.child("price").getValue().toString());
                         productModel.setOwner(snapshot1.child("owner").getValue().toString());
                         productModel.setSale(snapshot1.child("sale").getValue().toString());
+                        productModel.setPhone(snapshot1.child("phone").getValue().toString());
 
                         homeViewModel.setNewroduct(productModel);
                         productModelList.add(productModel);
