@@ -19,9 +19,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.CartItemModel;
 import com.example.sihaluh.data.model.TokkenModel;
@@ -37,6 +36,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+
 @AndroidEntryPoint
 public class HomeActivity extends AppCompatActivity {
     public static TextView txt_name_bar;
@@ -50,10 +50,11 @@ public class HomeActivity extends AppCompatActivity {
     private Boolean gotocart = false;
     private NavController navController;
     private MyCartViewModel myCartViewModel;
+    private static int item_model = 1;
+    private MeowBottomNavigation meowBottomNavigation;
 
     // firebase
     private final DatabaseReference ref_tokkens = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_TOKKENS);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,32 +81,48 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_cart, R.id.navigation_post_job, R.id.navigation_notifications, R.id.navigation_chat)
-                .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+//
 
+        meowBottomNavigation = findViewById(R.id.meow);
+//        NavigationUI.setupWithNavController(meowBottomNavigation, navController);
         observeMyCart();
-        if (gotocart) {
-            navController.navigate(R.id.navigation_cart);
-        }
+
+        MeowBottomNavigation.Model model = new MeowBottomNavigation.Model(1, R.drawable.ic_home_black_24dp);
+        meowBottomNavigation.add(model);
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_baseline_shopping_cart_24));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_baseline_add_shopping_cart_24));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_notifications_black_24dp));
+        meowBottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.ic_baseline_chat_24));
 
 
         actions();
+        if (gotocart) {
+            navController.navigate(R.id.navigation_cart);
+
+            meowBottomNavigation.show(2, true);
+        } else {
+            navController.navigate(R.id.navigation_home);
+
+            meowBottomNavigation.show(1, true);
+
+
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        //super.onBackPressed();
+        finish();
     }
 
     private void updateTokken() {
-        TokkenModel tokkenModel=new TokkenModel(FirebaseInstanceId.getInstance().getToken());
-        if (FirebaseAuth.getInstance().getCurrentUser()!=null)
-        {
+        TokkenModel tokkenModel = new TokkenModel(FirebaseInstanceId.getInstance().getToken());
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             ref_tokkens.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(tokkenModel);
-        }
-        else
-        {
+        } else {
             Toast.makeText(getApplicationContext(), "error when update tokken", Toast.LENGTH_SHORT).show();
         }
 
@@ -121,16 +138,16 @@ public class HomeActivity extends AppCompatActivity {
                             if (cartItemModel != null) {
                                 if (cartItemModel.productModelList.size() > 0) {
                                     showCard(true);
-                                    navView.getOrCreateBadge(R.id.navigation_cart).setBackgroundColor(getColor(
-                                            android.R.color.holo_orange_dark
-                                            )
-
-                                    );
-                                    navView.getOrCreateBadge(R.id.navigation_cart).setNumber(cartItemModel.productModelList.size());
+//                                    navView.getOrCreateBadge(R.id.navigation_cart).setBackgroundColor(getColor(
+//                                            android.R.color.holo_orange_dark
+//                                            ));
+//                                    navView.getOrCreateBadge(R.id.navigation_cart).setNumber(cartItemModel.productModelList.size());
+                                    meowBottomNavigation.setCount(2, cartItemModel.productModelList.size() + "");
 
                                 } else {
                                     showCard(false);
-                                    navView.removeBadge(R.id.navigation_cart);
+//                                    navView.removeBadge(R.id.navigation_cart);
+                                    meowBottomNavigation.clearCount(2);
 
                                 }
                             }
@@ -147,13 +164,55 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.navigation_cart);
+                meowBottomNavigation.show(2, true);
             }
         });
+
+        meowBottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
+            @Override
+            public void onClickItem(MeowBottomNavigation.Model item) {
+
+            }
+        });
+        meowBottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
+            @Override
+            public void onShowItem(MeowBottomNavigation.Model item) {
+                item_model = item.getId();
+                switch (item.getId()) {
+                    case 1:
+                        navController.navigate(R.id.navigation_home);
+
+                        break;
+                    case 2:
+                        navController.navigate(R.id.navigation_cart);
+
+                        break;
+                    case 3:
+                        navController.navigate(R.id.navigation_post_job);
+
+                        break;
+                    case 4:
+                        navController.navigate(R.id.navigation_notifications);
+
+                        break;
+                    case 5:
+                        navController.navigate(R.id.navigation_chat);
+
+                        break;
+                    default:
+                        navController.navigate(R.id.navigation_home);
+
+
+                }
+            }
+        });
+
 
     }
 
     private void init() {
-        navView = findViewById(R.id.nav_view);
+        // navView = findViewById(R.id.nav_view);
+
         txt_name_bar = findViewById(R.id.txt_home);
         img_signup = findViewById(R.id.img_signup);
         img_home_cart = findViewById(R.id.img_home_cart);
@@ -176,6 +235,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.signout_menu, menu);
     }
+
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
