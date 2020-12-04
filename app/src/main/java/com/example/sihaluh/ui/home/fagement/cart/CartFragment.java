@@ -19,7 +19,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +28,7 @@ import com.example.sihaluh.data.model.ProductModel;
 import com.example.sihaluh.ui.home.HomeActivity;
 import com.example.sihaluh.ui.home.fagement.cart.adapter.CartAdapter;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
+import com.example.sihaluh.ui.launch.LaunchActivity;
 import com.example.sihaluh.ui.order_complete.OrderDetailActivity;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -62,7 +63,7 @@ public class CartFragment extends Fragment {
     private Double totlal_price = 0.0;
     private int num;
     private boolean iam_remove = false;
-    private DatabaseReference ref_start = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
+    private final DatabaseReference ref_start = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -136,7 +137,10 @@ public class CartFragment extends Fragment {
         btn_cart_empty_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.navigation_home);
+//                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.navigation_home);
+                Intent intent=new Intent(getContext(), LaunchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
         cartAdapter.setOnCartListerner(new CartAdapter.OnCartListerner() {
@@ -148,7 +152,7 @@ public class CartFragment extends Fragment {
                 Double price = Double.parseDouble(productModelArrayList.get(pos).getPrice());
                 totlal_price += (price);
                 txt_num.setText(num + "");
-                txt_total_price.setText("EGP " + totlal_price);
+                txt_total_price.setText("EGP " + formatTotalPrice(totlal_price));
 
             }
 
@@ -162,7 +166,7 @@ public class CartFragment extends Fragment {
                 Double price = Double.parseDouble(productModelArrayList.get(pos).getPrice());
                 totlal_price -= (price);
                 txt_num.setText(num + "");
-                txt_total_price.setText("EGP " + totlal_price);
+                txt_total_price.setText("EGP " + formatTotalPrice(totlal_price));
 
             }
 
@@ -182,7 +186,7 @@ public class CartFragment extends Fragment {
                         iam_remove = true;
                         myCartViewModel.addProductToCar(new CartItemModel(prefViewModel.getPhone(), productModelArrayList));
                         totlal_price -= (num * price);
-                        txt_total_price.setText("EGP " + totlal_price);
+                        txt_total_price.setText("EGP " + formatTotalPrice(totlal_price));
                     }
                 }, 400);
 
@@ -274,12 +278,18 @@ public class CartFragment extends Fragment {
             for (ProductModel productModel : productModelArrayList) {
                 totlal_price += Double.parseDouble(productModel.getPrice());
             }
-            txt_total_price.setText("EGP " + totlal_price);
+
+            txt_total_price.setText("EGP " + formatTotalPrice(totlal_price));
 
         }
         iam_remove = false;
 
 
+    }
+    private String formatTotalPrice(Double d)
+    {
+        DecimalFormat format=new DecimalFormat("#.#");
+        return  format.format(d);
     }
 
 

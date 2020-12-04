@@ -55,7 +55,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ImageButton img_chat;
     private Button btn_detail_add_cart;
     private CardView card_non_empty;
-
+    private ImageView img_detial_back, img_detail_cart, img_detail_share;
 
     // var
     private ProductModel productModel;
@@ -66,7 +66,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ArrayList<ProductModel> productModelArrayList;
     private CartItemModel cartItemModeltest;
     private FullImageFragment fullImageFragment;
-    private ImageView img_detial_back, img_detail_cart, img_detail_share;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,9 +168,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-                if (connectivityManager.getActiveNetworkInfo()!=null)
-                {
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                if (connectivityManager.getActiveNetworkInfo() != null) {
                     if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(productModel.getOwner())) {
                         Toast.makeText(ProductDetailActivity.this, "not avaible!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -179,10 +178,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                         addNewUser();
 
 
-
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(ProductDetailActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
                 }
 
@@ -219,10 +216,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists())
-                                    {
-                                        RegisterModel registerModel2=snapshot.getValue(RegisterModel.class);
-
+                                    if (snapshot.exists()) {
+                                        RegisterModel registerModel2 = snapshot.getValue(RegisterModel.class);
+                                        registerModel2.setName(productModel.getName());
+                                        registerModel2.setImg_url(productModel.getImg());
                                         ref_users.child(registerModel.getId())
                                                 .child("users_added").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
@@ -230,9 +227,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                                                 if (snapshot.exists()) {
                                                     if (snapshot.hasChildren()) {
-                                                        for (DataSnapshot dataSnapshot:snapshot.getChildren())
-                                                        {
-                                                            RegisterModel r=dataSnapshot.getValue(RegisterModel.class);
+                                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                            RegisterModel r = dataSnapshot.getValue(RegisterModel.class);
+
                                                             registerModelArrayList.add(r);
                                                         }
                                                         registerModelArrayList.add(registerModel2);
@@ -242,7 +239,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                                                     }
                                                 } else {
-
 
 
                                                     registerModelArrayList.add(registerModel2);
@@ -261,7 +257,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                                             }
                                         });
                                     }
-
 
 
                                 }

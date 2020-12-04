@@ -103,25 +103,32 @@ public class ChatFragment extends Fragment {
                 if (snapshot.exists())
                 {
 
-                    userChatAddModel=snapshot.getValue(UserChatAddModel.class);
 
-                    showNoData(false);
-                    registerModelArrayList.clear();
-                    registerModelArrayList.addAll(userChatAddModel.getUsers_added());
-                    userAdapter.setRegisterModelList(registerModelArrayList);
-                    txt_xhat_user_name.setText(userChatAddModel.getName());
-                    if (userChatAddModel.getCurrent_user_img().equals(""))
+                    userChatAddModel=snapshot.getValue(UserChatAddModel.class);
+                    if (userChatAddModel.getUsers_added()!=null)
                     {
-                        Glide.with(getContext())
-                                .load(getResources().getDrawable(R.drawable.no_user))
-                                .into(img_user_frag);
+
+                        showNoData(false);
+                        registerModelArrayList.clear();
+
+                        registerModelArrayList.addAll(userChatAddModel.getUsers_added());
+                        userAdapter.setRegisterModelList(registerModelArrayList);
+                        txt_xhat_user_name.setText(userChatAddModel.getName());
+                        if (userChatAddModel.getCurrent_user_img().equals(""))
+                        {
+                            Glide.with(getContext())
+                                    .load(getResources().getDrawable(R.drawable.no_user))
+                                    .into(img_user_frag);
+                        }
+                        else
+                        {
+                            Glide.with(getContext())
+                                    .load(userChatAddModel.getCurrent_user_img())
+                                    .into(img_user_frag);
+                        }
+
                     }
-                    else
-                    {
-                        Glide.with(getContext())
-                                .load(userChatAddModel.getCurrent_user_img())
-                                .into(img_user_frag);
-                    }
+
 
 
                 }

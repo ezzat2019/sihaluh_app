@@ -50,7 +50,6 @@ public class HomeActivity extends AppCompatActivity {
     private Boolean gotocart = false;
     private NavController navController;
     private MyCartViewModel myCartViewModel;
-    private static int item_model = 1;
     private MeowBottomNavigation meowBottomNavigation;
 
     // firebase
@@ -177,7 +176,7 @@ public class HomeActivity extends AppCompatActivity {
         meowBottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
-                item_model = item.getId();
+
                 switch (item.getId()) {
                     case 1:
                         navController.navigate(R.id.navigation_home);
@@ -204,6 +203,12 @@ public class HomeActivity extends AppCompatActivity {
 
 
                 }
+            }
+        });
+        meowBottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+
             }
         });
 
