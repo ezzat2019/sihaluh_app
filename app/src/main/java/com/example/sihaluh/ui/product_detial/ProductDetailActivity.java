@@ -189,9 +189,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         btn_detail_add_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addtoCart();
 
-            }
+
+                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(productModel.getOwner())) {
+                        Toast.makeText(ProductDetailActivity.this, "not avaible, you owner of that product!", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        addtoCart();
+
+
+                    }
+                }
+
+
         });
 
 

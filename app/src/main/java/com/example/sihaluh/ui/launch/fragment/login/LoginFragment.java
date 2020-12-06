@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.RegisterModel;
 import com.example.sihaluh.ui.home.HomeActivity;
+import com.example.sihaluh.ui.launch.LaunchActivity;
 import com.example.sihaluh.ui.launch.fragment.login.forget_password.ForgetPasswordBottomSheetFragment;
 import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
@@ -46,6 +47,7 @@ public class LoginFragment extends Fragment {
     private Button btn_login;
     private TextView txt_forget_pass;
     private BottomSheetDialogFragment bottomSheetDialog;
+
 
     // var
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -110,6 +112,7 @@ public class LoginFragment extends Fragment {
                 if (!checkEditedTextLogin()) {
                     return;
                 }
+                LaunchActivity.start_progress.setVisibility(View.VISIBLE);
                 login();
             }
         });
@@ -134,6 +137,7 @@ public class LoginFragment extends Fragment {
 
         if (connectivityManager.getActiveNetworkInfo() == null) {
             Toast.makeText(getContext(), "check internet connection!", Toast.LENGTH_SHORT).show();
+            LaunchActivity.start_progress.setVisibility(View.GONE);
             return;
         }
 
@@ -152,7 +156,7 @@ public class LoginFragment extends Fragment {
 
                                         ed_login_pass.setText("");
                                         ed_login_phone.setText("");
-
+                                        LaunchActivity.start_progress.setVisibility(View.GONE);
                                         startActivity(new Intent(getContext(), HomeActivity.class));
                                         getActivity().finish();
 
@@ -164,9 +168,11 @@ public class LoginFragment extends Fragment {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(getContext(), e.getMessage() + "", Toast.LENGTH_SHORT).show();
+                                    LaunchActivity.start_progress.setVisibility(View.GONE);
                                 }
                             });
                 } else {
+                    LaunchActivity.start_progress.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "incorrect phone or password", Toast.LENGTH_SHORT).show();
                 }
 
@@ -174,6 +180,7 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                LaunchActivity.start_progress.setVisibility(View.GONE);
                 Toast.makeText(getContext(), error.getMessage() + "", Toast.LENGTH_SHORT).show();
 
             }

@@ -2,6 +2,7 @@ package com.example.sihaluh.utils;
 
 public final class AllFinal {
     public static final String FIREBASE_DATABASE_LOGIN = "login";
+    public static final String FIREBASE_DATABASE_Notifcation = "notification_products";
     public static final String FIREBASE_DATABASE_ADRESS_USER = "adresses";
     public static final String FIREBASE_DATABASE_ENDORDER = "orders";
     public static final String FIREBASE_DATABASE_STARORDER = "start_orders";

@@ -1,6 +1,5 @@
 package com.example.sihaluh.ui.end_oreder;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import com.example.sihaluh.utils.AllFinal;
 import com.example.sihaluh.utils.shared_preferense.PrefViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -44,21 +45,22 @@ public class EndOrderActivity extends AppCompatActivity {
     private TextView txt_end_name, txt_end_phone, txt_end_loction, txt_end_delvery_totall, txt_end_subtotal, txt_end_shipping, txt_end_total;
     private Button btn_end_confirm;
     private RadioGroup radio_payment;
-    private ProgressDialog progressDialog;
+    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     // var
     private AdressUserModel adressUserModel;
     private Double total_price;
     private ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference ref_end_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ENDORDER);
-    private DatabaseReference ref_collection = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ORDER_COLLECTION);
-    private DatabaseReference ref_start_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
+    private final DatabaseReference ref_end_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ENDORDER);
+    private final DatabaseReference ref_notification = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_Notifcation);
+    private final DatabaseReference ref_collection = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ORDER_COLLECTION);
+    private final DatabaseReference ref_start_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
+    private final int i = 0;
     private PrefViewModel prefViewModel;
     private String typr_payment = AllFinal.PAYMENT_CASH;
     private MyCartViewModel myCartViewModel;
     private CartItemModel cartItemModel;
-    private int i = 0;
+    private View end_order_progress;
 
 
     @Override
@@ -113,7 +115,7 @@ public class EndOrderActivity extends AppCompatActivity {
                     }
 
 
-                    progressDialog.show();
+                    end_order_progress.setVisibility(View.VISIBLE);
 
                     endOrder();
 
@@ -158,7 +160,7 @@ public class EndOrderActivity extends AppCompatActivity {
 
                     ProductModel productModel = dataSnapshot.getValue(ProductModel.class);
                     String id_buyer = productModel.getOwner();
-                    String id_end[] = id_buyer.split("@");
+                    String[] id_end = id_buyer.split("@");
                     id_buyer = id_end[0];
 
                     EndOrderModel endOrderModel = new EndOrderModel(productModel.getId()
@@ -170,13 +172,16 @@ public class EndOrderActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             Log.d("yyyyyyyyy", "onSuccess: ");
 
+                            sendNotification(productModel.getImg(),productModel.getOwner()
+                            ,prefViewModel.getPhone(),productModel.getName(),total_price.toString());
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(EndOrderActivity.this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            end_order_progress.setVisibility(View.GONE);
                         }
                     });
 
@@ -196,7 +201,7 @@ public class EndOrderActivity extends AppCompatActivity {
                         myCartViewModel.deleteProductToCar(cartItemModel);
                         Intent intent = new Intent(getApplicationContext(), LaunchActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        progressDialog.dismiss();
+                        end_order_progress.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                     }
@@ -208,7 +213,7 @@ public class EndOrderActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(EndOrderActivity.this, error.getMessage() + "", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
+                end_order_progress.setVisibility(View.GONE);
 
             }
         });
@@ -216,7 +221,32 @@ public class EndOrderActivity extends AppCompatActivity {
 
     }
 
+    private void sendNotification(String img, String owner, String phone, String name, String total_price) {
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("img",img);
+        map.put("from",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        map.put("to",owner);
+        map.put("name_product",name);
+        map.put("total_price",total_price);
+        Date date=new Date();
+        map.put("date",date);
+
+
+        ref_notification.child(owner).push()
+                .setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+
+
+
+
+    }
+
     private void init() {
+
         txt_end_name = findViewById(R.id.txt_end_name);
         txt_end_phone = findViewById(R.id.txt_end_phone);
         txt_end_loction = findViewById(R.id.txt_end_loction);
@@ -226,10 +256,9 @@ public class EndOrderActivity extends AppCompatActivity {
         txt_end_total = findViewById(R.id.txt_end_total);
         btn_end_confirm = findViewById(R.id.btn_end_confirm);
         radio_payment = findViewById(R.id.radio_payment);
+        end_order_progress=findViewById(R.id.end_order_progress);
+        end_order_progress.setVisibility(View.GONE);
 
-        progressDialog = new ProgressDialog(EndOrderActivity.this);
-        progressDialog.setMessage("Wait please!");
-        progressDialog.setCancelable(false);
 
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
         myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
