@@ -2,6 +2,7 @@ package com.example.sihaluh.data.repository;
 
 import com.example.sihaluh.data.apis.FCMAPI;
 import com.example.sihaluh.data.model.MyResponse;
+import com.example.sihaluh.data.model.SenderFragNotifictionModel;
 import com.example.sihaluh.data.model.SenderModel;
 
 import retrofit2.Call;
@@ -22,5 +23,9 @@ public class FCMRepo {
     public Call<MyResponse> sendMessageNotification(SenderModel senderModel)
     {
         return fcmapi.sendNotification(senderModel);
+    }
+    public Call<MyResponse> sendMessageNotificationFrag(SenderFragNotifictionModel senderFragNotifictionModel)
+    {
+        return fcmapi.sendNotificationFrag(senderFragNotifictionModel);
     }
 }

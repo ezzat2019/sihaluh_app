@@ -13,13 +13,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sihaluh.R;
 import com.example.sihaluh.data.model.AdressUserModel;
 import com.example.sihaluh.data.model.CartItemModel;
+import com.example.sihaluh.data.model.DataNotifictionFragModel;
 import com.example.sihaluh.data.model.EndOrderModel;
+import com.example.sihaluh.data.model.MyResponse;
 import com.example.sihaluh.data.model.ProductModel;
+import com.example.sihaluh.data.model.SenderFragNotifictionModel;
+import com.example.sihaluh.data.model.TokkenModel;
+import com.example.sihaluh.ui.end_oreder.viewmodel.EndOrderViewModel;
 import com.example.sihaluh.ui.home.fagement.cart.viewmodel.MyCartViewModel;
 import com.example.sihaluh.ui.launch.LaunchActivity;
 import com.example.sihaluh.utils.AllFinal;
@@ -38,23 +44,30 @@ import java.util.Date;
 import java.util.HashMap;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import retrofit2.Response;
 
 @AndroidEntryPoint
 public class EndOrderActivity extends AppCompatActivity {
-    // ui
-    private TextView txt_end_name, txt_end_phone, txt_end_loction, txt_end_delvery_totall, txt_end_subtotal, txt_end_shipping, txt_end_total;
-    private Button btn_end_confirm;
-    private RadioGroup radio_payment;
-    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-    // var
-    private AdressUserModel adressUserModel;
-    private Double total_price;
-    private ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
+    // firebase
+    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private final DatabaseReference ref_end_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ENDORDER);
     private final DatabaseReference ref_notification = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_Notifcation);
     private final DatabaseReference ref_collection = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_ORDER_COLLECTION);
     private final DatabaseReference ref_start_order = firebaseDatabase.getReference().child(AllFinal.FIREBASE_DATABASE_STARORDER);
+    private final DatabaseReference ref_tokken = firebaseDatabase.getReference().child(AllFinal.FIREBASE_TOKKENS);
+
+    // ui
+    private TextView txt_end_name, txt_end_phone, txt_end_loction, txt_end_delvery_totall, txt_end_subtotal, txt_end_shipping, txt_end_total;
+    private Button btn_end_confirm;
+    private RadioGroup radio_payment;
+
+
+    // var
+    private AdressUserModel adressUserModel;
+    private EndOrderViewModel endOrderViewModel;
+    private Double total_price;
+    private ArrayList<ProductModel> productModelArrayList = new ArrayList<>();
     private final int i = 0;
     private PrefViewModel prefViewModel;
     private String typr_payment = AllFinal.PAYMENT_CASH;
@@ -76,6 +89,7 @@ public class EndOrderActivity extends AppCompatActivity {
 
             init();
 
+            observeResponse();
             fillData();
 
             actions();
@@ -85,6 +99,24 @@ public class EndOrderActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void observeResponse() {
+        if (endOrderViewModel!=null)
+        {
+            endOrderViewModel.getResponseMutableLiveData().observe(this, new Observer<Response<MyResponse>>() {
+                @Override
+                public void onChanged(Response<MyResponse> myResponseResponse) {
+                    if (myResponseResponse.code()==200)
+                    {
+                        if (myResponseResponse.body().success!=1)
+                        {
+                            Toast.makeText(EndOrderActivity.this, "error in sending notification", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void fillData() {
@@ -149,6 +181,28 @@ public class EndOrderActivity extends AppCompatActivity {
 
     }
 
+    private void init() {
+
+        txt_end_name = findViewById(R.id.txt_end_name);
+        txt_end_phone = findViewById(R.id.txt_end_phone);
+        txt_end_loction = findViewById(R.id.txt_end_loction);
+        txt_end_delvery_totall = findViewById(R.id.txt_end_delvery_totall);
+        txt_end_subtotal = findViewById(R.id.txt_end_subtotal);
+        txt_end_shipping = findViewById(R.id.txt_end_shipping);
+        txt_end_total = findViewById(R.id.txt_end_total);
+        btn_end_confirm = findViewById(R.id.btn_end_confirm);
+        radio_payment = findViewById(R.id.radio_payment);
+        end_order_progress = findViewById(R.id.end_order_progress);
+        end_order_progress.setVisibility(View.GONE);
+
+
+        prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
+        myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
+        endOrderViewModel=new ViewModelProvider(this).get(EndOrderViewModel.class);
+
+        cartItemModel = new CartItemModel(prefViewModel.getPhone(), productModelArrayList);
+    }
+
     private void endOrder() {
 
         ref_start_order.child(prefViewModel.getPhone()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -172,8 +226,8 @@ public class EndOrderActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             Log.d("yyyyyyyyy", "onSuccess: ");
 
-                            sendNotification(productModel.getImg(),productModel.getOwner()
-                            ,prefViewModel.getPhone(),productModel.getName(),total_price.toString());
+                            sendNotification(productModel.getImg(), productModel.getOwner()
+                                    , prefViewModel.getPhone(), productModel.getName(), total_price.toString());
 
 
                         }
@@ -222,14 +276,14 @@ public class EndOrderActivity extends AppCompatActivity {
     }
 
     private void sendNotification(String img, String owner, String phone, String name, String total_price) {
-        HashMap<String,Object> map=new HashMap<>();
-        map.put("img",img);
-        map.put("from",FirebaseAuth.getInstance().getCurrentUser().getUid());
-        map.put("to",owner);
-        map.put("name_product",name);
-        map.put("total_price",total_price);
-        Date date=new Date();
-        map.put("date",date);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("img", img);
+        map.put("from", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        map.put("to", owner);
+        map.put("name_product", name);
+        map.put("total_price", total_price);
+        Date date = new Date();
+        map.put("date", date);
 
 
         ref_notification.child(owner).push()
@@ -237,32 +291,36 @@ public class EndOrderActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
 
+                sendNotificationFCM(FirebaseAuth.getInstance().getCurrentUser().getUid(), owner, name, total_price);
+
             }
         });
 
 
+    }
 
+    private void sendNotificationFCM(String uid, String owner, String name, String total_price) {
+
+        ref_tokken.child(owner).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TokkenModel tokkenModel=snapshot.getValue(TokkenModel.class);
+                DataNotifictionFragModel model = new DataNotifictionFragModel(uid, owner, name, total_price);
+
+                SenderFragNotifictionModel senderFragNotifictionModel=new SenderFragNotifictionModel(tokkenModel.getTokken()
+                ,model);
+                endOrderViewModel.setNotifiction(senderFragNotifictionModel);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage()+"", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
-    private void init() {
 
-        txt_end_name = findViewById(R.id.txt_end_name);
-        txt_end_phone = findViewById(R.id.txt_end_phone);
-        txt_end_loction = findViewById(R.id.txt_end_loction);
-        txt_end_delvery_totall = findViewById(R.id.txt_end_delvery_totall);
-        txt_end_subtotal = findViewById(R.id.txt_end_subtotal);
-        txt_end_shipping = findViewById(R.id.txt_end_shipping);
-        txt_end_total = findViewById(R.id.txt_end_total);
-        btn_end_confirm = findViewById(R.id.btn_end_confirm);
-        radio_payment = findViewById(R.id.radio_payment);
-        end_order_progress=findViewById(R.id.end_order_progress);
-        end_order_progress.setVisibility(View.GONE);
-
-
-        prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
-        myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
-
-        cartItemModel = new CartItemModel(prefViewModel.getPhone(), productModelArrayList);
-    }
 }
