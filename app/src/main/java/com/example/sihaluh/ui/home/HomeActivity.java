@@ -52,6 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     private MyCartViewModel myCartViewModel;
     private MeowBottomNavigation meowBottomNavigation;
 
+
     // firebase
     private final DatabaseReference ref_tokkens = FirebaseDatabase.getInstance().getReference().child(AllFinal.FIREBASE_TOKKENS);
 
@@ -113,8 +114,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        //super.onBackPressed();
+
         finish();
+
+
     }
 
     private void updateTokken() {

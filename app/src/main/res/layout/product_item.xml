@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_150sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="@dimen/_5sdp"
+    android:layout_width="@dimen/_150sdp"
+    android:layout_height="@dimen/_200sdp"
     android:layout_margin="@dimen/_8sdp"
     android:outlineAmbientShadowColor="@color/black"
-    android:layout_height="@dimen/_200sdp">
+    app:cardElevation="@dimen/_5sdp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/white"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_height="match_parent">
+        android:foreground="?attr/selectableItemBackground">
 
 
         <ImageView
@@ -30,11 +30,11 @@
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@color/white"
+            android:singleLine="true"
             android:text="name"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
-            android:background="@color/white"
-            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,11 +44,11 @@
             android:id="@+id/txt_price_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 SAR"
-            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginStart="@dimen/_16sdp"
-            android:textSize="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="0 SAR"
             android:textColor="@color/move"
+            android:textSize="@dimen/_13sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_product_item" />
 
@@ -79,8 +79,8 @@
             android:id="@+id/img_cart"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="center"
             android:foreground="?attr/selectableItemBackground"
+            android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/view3"
             app:layout_constraintStart_toEndOf="@+id/view4"
@@ -91,11 +91,11 @@
             android:id="@+id/txt_sale_product"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="0 %"
             android:foreground="?attr/selectableItemBackground"
-            android:textSize="@dimen/_16sdp"
-            android:textColor="@color/black"
             android:gravity="center_vertical|center_horizontal"
+            android:text="0 %"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/img_cart"
             app:layout_constraintStart_toStartOf="@+id/view3"

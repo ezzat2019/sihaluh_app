@@ -21,7 +21,7 @@ import java.util.List;
 public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAdapter.ProductVH> {
     public onProductClickListener onProductClickListener;
     private List<ProductModel> productModelList = new ArrayList<>();
-    private Context context;
+    private final Context context;
 
     public void addProducts(List<ProductModel> productModelList) {
 
@@ -51,7 +51,7 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
 
     @Override
     public void onBindViewHolder(@NonNull ProductVH holder, int position) {
-      //  Log.d("ccccccccc", "fillData: " + productModelList.size());
+
         holder.fillData(productModelList.get(position));
     }
 
@@ -87,7 +87,7 @@ public class ProductRecycleAdapter extends RecyclerView.Adapter<ProductRecycleAd
         }
 
         public void fillData(ProductModel productModel) {
-            Log.d("ccccccccc", "fillData: " + productModel.toString());
+
 
             txt_name.setText(productModel.getName());
             txt_price.setText(productModel.getPrice() + " SAR");

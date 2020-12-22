@@ -19,8 +19,7 @@
 
         <include
 
-            layout="@layout/empty_cart_layout"
-             />
+            layout="@layout/empty_cart_layout" />
     </androidx.core.widget.NestedScrollView>
 
     <include

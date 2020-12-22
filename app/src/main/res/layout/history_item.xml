@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="@dimen/_8sdp"
-    app:cardElevation="@dimen/_5sdp"
-    android:outlineAmbientShadowColor="@color/white"
-    app:cardCornerRadius="@dimen/_16sdp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_8sdp"
+    android:outlineAmbientShadowColor="@color/white"
+    app:cardCornerRadius="@dimen/_8sdp"
+    app:cardElevation="@dimen/_3sdp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:foreground="?attr/selectableItemBackground"
-        android:background="#FDE6E9"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:foreground="?attr/selectableItemBackground">
 
 
         <TextView
@@ -32,11 +31,11 @@
             android:id="@+id/txt_his_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
-            android:text="Phone : 01144545454"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:text="Phone : 01144545454"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_his_name" />
 
@@ -72,11 +71,11 @@
             android:id="@+id/txt_his_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
-            android:text="Date : 11/2/2020"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:text="Date : 11/2/2020"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_his_loction" />
 
@@ -85,12 +84,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:textColor="@color/move"
-            android:textSize="@dimen/_12sdp"
-
-            android:text="Price : 20 SAR "
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
+
+            android:text="Price : 20 SAR "
+            android:textColor="@color/move"
+            android:textSize="@dimen/_12sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_his_date" />
 
@@ -99,11 +98,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:text="=dfvvccxcvxvxvxvc"
             android:textColor="@android:color/holo_green_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="@dimen/_8sdp"
             app:layout_constraintTop_toBottomOf="@+id/txt_his_price" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

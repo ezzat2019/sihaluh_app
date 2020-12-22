@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    app:cardElevation="@dimen/_7sdp"
-    app:cardCornerRadius="@dimen/_10sdp"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/_8sdp"
-    android:layout_height="wrap_content">
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_7sdp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="@dimen/_200sdp">
+        android:layout_height="@dimen/_200sdp"
+        android:background="@color/white">
 
 
         <ImageView
@@ -22,18 +21,17 @@
 
             android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_cart_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginEnd="@dimen/_40sdp"
-            android:text="TextView"
-            android:maxLines="3"
             android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_40sdp"
+            android:maxLines="3"
+            android:text="TextView"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:typeface="sans"
@@ -47,10 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:text="0.00 SAR "
             android:textColor="@color/move"
             android:textSize="@dimen/_14sdp"
-            android:text="0.00 SAR "
-            android:layout_marginBottom="@dimen/_16sdp"
             android:typeface="sans"
 
             app:layout_constraintBottom_toBottomOf="@+id/img_cart_item"
@@ -60,23 +58,23 @@
             android:id="@+id/btn_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="remove"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:drawableLeft="@drawable/ic_baseline_delete_24"
             android:elevation="@dimen/_3sdp"
             android:foreground="?attr/selectableItemBackground"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_16sdp"
+            android:text="remove"
             android:textColor="@color/move"
-            android:drawableLeft="@drawable/ic_baseline_delete_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_cart_item" />
 
         <ImageButton
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_22sdp"
             android:background="@color/white"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@+id/btn_remove"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_remove"
@@ -86,11 +84,11 @@
             android:id="@+id/txt_num_item_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:text="1"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
             android:typeface="sans"
-            android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="@+id/btn_add"
             app:layout_constraintEnd_toStartOf="@+id/btn_add"
             app:layout_constraintTop_toTopOf="@+id/btn_add" />
@@ -99,9 +97,9 @@
             android:id="@+id/btn_minus_item_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            android:background="@color/white"
             android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@color/white"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@+id/btn_remove"
             app:layout_constraintEnd_toStartOf="@+id/txt_num_item_cart"
             app:layout_constraintTop_toTopOf="@+id/btn_remove"

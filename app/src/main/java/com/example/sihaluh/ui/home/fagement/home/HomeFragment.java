@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,6 +32,7 @@ import com.example.sihaluh.ui.home.fagement.home.adapters.CategoryAdapter;
 import com.example.sihaluh.ui.home.fagement.home.adapters.ProductRecycleAdapter;
 import com.example.sihaluh.ui.home.fagement.home.viewmodel.HomeViewModel;
 import com.example.sihaluh.ui.product_detial.ProductDetailActivity;
+import com.example.sihaluh.ui.search.SearchActivity;
 import com.example.sihaluh.utils.AllFinal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,19 +46,22 @@ import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+import static com.example.sihaluh.utils.AllFinal.SREARCH_PRODUCTS;
+
 @AndroidEntryPoint
 public class HomeFragment extends Fragment {
     // ui
     private RecyclerView rec_cat, rec_product;
     private TextView txt_home_result, txt_home_more;
     private ImageView img_filter, img_location;
+    private SearchView search_home;
 
 
     // var
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference reference_cat = database.getReference().child(AllFinal.CATEGORIES);
     private final ArrayList<CategoriesModel> categoriesModelList = new ArrayList<>();
-    private List<ProductModel> productModelList = new ArrayList<>();
+    private ArrayList<ProductModel> productModelList = new ArrayList<>();
     private HomeViewModel homeViewModel;
     private CategoryAdapter categoryAdapter;
     private ProductRecycleAdapter productRecycleAdapter;
@@ -104,7 +108,7 @@ public class HomeFragment extends Fragment {
 
                                 productRecycleAdapter.addProducts(productModelList2);
                                 homeViewModel.setResult_num(productModelList2.size());
-                                productModelList = productModelList2;
+                                productModelList = (ArrayList<ProductModel>) productModelList2;
 
 
                             }
@@ -130,7 +134,7 @@ public class HomeFragment extends Fragment {
         for (int h = 0; h < categoriesModelList.size(); h++) {
             String id_cat = categoriesModelList.get(h).getId();
 
-            Log.d("gggggggg", "onDataChange:22 " + id_cat);
+
             reference_cat.child(id_cat).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -193,6 +197,15 @@ public class HomeFragment extends Fragment {
 
 
     private void actions() {
+        search_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(getContext(), SearchActivity.class)
+                        .putExtra(SREARCH_PRODUCTS, productModelList));
+            }
+        });
+
         img_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,6 +269,8 @@ public class HomeFragment extends Fragment {
 
 
     private void init(View view) {
+
+        search_home = view.findViewById(R.id.search_home);
 
         img_filter = view.findViewById(R.id.img_filter);
         img_location = view.findViewById(R.id.img_location);

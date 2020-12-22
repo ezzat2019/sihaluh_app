@@ -3,26 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/light_gray2"
     android:layout_height="match_parent"
+    android:background="@color/light_gray2"
     tools:context=".ui.order_complete.OrderDetailActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_map"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:cardCornerRadius="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_marginEnd="8dp"
-        android:visibility="gone"
-        android:outlineAmbientShadowColor="@color/move"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:outlineAmbientShadowColor="@color/move"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/_20sdp"
         app:cardElevation="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/nestedScrollView"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" >
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -138,9 +139,9 @@
                             android:id="@+id/ed_name_oreder_adress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
                             android:background="@color/white"
                             android:hint="Name"
+                            android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHighlight="@color/move" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -216,9 +217,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

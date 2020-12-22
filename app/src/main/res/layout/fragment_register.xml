@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.launch.fragment.register.RegisterFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt3"
             android:layout_width="0dp"
@@ -25,9 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:singleLine="true"
                 android:gravity="center"
                 android:hint="Name"
+                android:singleLine="true"
                 android:textAlignment="center"
                 android:textSize="@dimen/_14sdp" />
 
@@ -51,9 +53,9 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center"
-                android:maxLength="11"
                 android:hint="Phone (You Cannot Change Phone Number Later)"
                 android:inputType="phone"
+                android:maxLength="11"
                 android:textAlignment="center"
                 android:textSize="@dimen/_11sdp" />
 
@@ -141,7 +143,6 @@
             app:layout_constraintTop_toBottomOf="@+id/ch_register_policy"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </ScrollView>

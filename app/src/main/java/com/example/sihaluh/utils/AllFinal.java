@@ -30,6 +30,7 @@ public final class AllFinal {
     public static final String MEESAGE_TYPE_IMG="img";
     public static final String MEESAGE_TYPE_PDF="pdf";
     public static final String FIREBASE_USER_CHAT = "users_chated";
+    public static final String SREARCH_PRODUCTS = "54dgfdf5gd";
 
 
 

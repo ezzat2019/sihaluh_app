@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="1000dp">
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/search_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -39,9 +39,9 @@
         <ImageView
             android:id="@+id/img_location"
             android:layout_width="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
+            android:foreground="?attr/selectableItemBackground"
             android:src="@drawable/ic_baseline_not_listed_location_24"
             app:layout_constraintBottom_toBottomOf="@+id/search_home"
             app:layout_constraintStart_toEndOf="@+id/img_filter"
@@ -87,8 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
-            android:text="More"
             android:foreground="?attr/selectableItemBackground"
+            android:text="More"
             android:textColor="@color/move"
             android:textSize="@dimen/_14sdp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -119,8 +119,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
-            android:text="Products"
             android:layout_marginTop="@dimen/_16sdp"
+            android:text="Products"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
@@ -144,9 +144,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_50sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="@dimen/_50sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
